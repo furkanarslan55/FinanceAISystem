@@ -1,4 +1,5 @@
 ﻿using FinanceAI.Application.Dtos.AppUser;
+using FinanceAI.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace FinanceAI.Application.Interfaces
 {
-    public interface IUserService
+    public interface ITokenService
     {
-        Task<UserDto> RegisterAsync(UserRegisterDto userRegisterDto);
-        Task<UserDto> GetUserByIdAsync(int id);
-        Task<TokenResponseDto> LoginAsync(UserLoginDto loginDto);
+        TokenResponseDto CreateToken(AppUser user);
     }
 }

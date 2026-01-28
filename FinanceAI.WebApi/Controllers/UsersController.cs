@@ -32,5 +32,12 @@ namespace FinanceAI.WebApi.Controllers
             var user = await _userService.GetUserByIdAsync(id);
             return Ok(user);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginDto loginDto)
+        {
+            var result = await _userService.LoginAsync(loginDto);
+            return Ok(result);
+        }
     }
 }

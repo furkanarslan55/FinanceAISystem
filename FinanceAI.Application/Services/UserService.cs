@@ -12,24 +12,44 @@ namespace FinanceAI.Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly IGenericRepository<AppUser> _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPasswordHasher _passwordHasher;
+        private readonly ITokenService _tokenService;
 
-        public UserService(IGenericRepository<AppUser> userRepository, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher,ITokenService tokenService)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
+            _passwordHasher = passwordHasher;
+            _tokenService = tokenService;
         }
+        // Constructor'a ITokenService enjekte etmeyi unutma!
+        public async Task<TokenResponseDto> LoginAsync(UserLoginDto loginDto)
+        {
+            var user = await _userRepository.GetByEmailAsync(loginDto.Email);
+
+            if (user == null || !_passwordHasher.VerifyPassword(loginDto.Password, user.PasswordHash))
+            {
+                throw new Exception("Email veya şifre hatalı!");
+            }
+
+            // Bilgiler doğru, token üret
+            return _tokenService.CreateToken(user);
+        }
+
+
+
 
         public async Task<UserDto> RegisterAsync(UserRegisterDto dto)
         {
-            // Gerçek projede şifre burada hash'lenmeli! Şimdilik basit tutuyoruz.
+            var hashedPassword = _passwordHasher.HashPassword(dto.Password);
             var user = new AppUser
             {
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
-                PasswordHash = dto.Password, // Şimdilik plain text, sonra düzelteceğiz
+                PasswordHash = hashedPassword, 
                 MonthlyIncome = dto.MonthlyIncome
             };
 

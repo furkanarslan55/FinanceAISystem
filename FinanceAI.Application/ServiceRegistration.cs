@@ -1,5 +1,6 @@
 ﻿using FinanceAI.Application.Interfaces;
 using FinanceAI.Application.Services;
+using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace FinanceAI.Application
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDebtService, DebtService>();
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IDebtCategoryService, DebtCategoryService>();
+            services.AddFluentValidationAutoValidation();
         }
     }
 }

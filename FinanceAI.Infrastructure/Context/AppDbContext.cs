@@ -21,6 +21,8 @@ namespace FinanceAI.Infrastructure.Context
         public DbSet<Debt> Debts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<DebtCategory> Categories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Tüm Configuration dosyalarını (varsa) otomatik olarak uygular

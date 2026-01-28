@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceAI.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260128082758_new")]
+    [Migration("20260128111642_new")]
     partial class @new
     {
         /// <inheritdoc />
@@ -83,6 +83,9 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DebtCategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
 
@@ -115,7 +118,76 @@ namespace FinanceAI.Infrastructure.Migrations
 
                     b.HasIndex("AppUserId");
 
+                    b.HasIndex("DebtCategoryId");
+
                     b.ToTable("Debts");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.DebtCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2026, 1, 28, 11, 16, 41, 676, DateTimeKind.Utc).AddTicks(3019),
+                            IsDeleted = false,
+                            Name = "Banka Kredisi"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2026, 1, 28, 11, 16, 41, 676, DateTimeKind.Utc).AddTicks(3023),
+                            IsDeleted = false,
+                            Name = "Kredi Kartı"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedDate = new DateTime(2026, 1, 28, 11, 16, 41, 676, DateTimeKind.Utc).AddTicks(3025),
+                            IsDeleted = false,
+                            Name = "Eğitim"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedDate = new DateTime(2026, 1, 28, 11, 16, 41, 676, DateTimeKind.Utc).AddTicks(3182),
+                            IsDeleted = false,
+                            Name = "Borç (Bireysel)"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedDate = new DateTime(2026, 1, 28, 11, 16, 41, 676, DateTimeKind.Utc).AddTicks(3184),
+                            IsDeleted = false,
+                            Name = "Diğer"
+                        });
                 });
 
             modelBuilder.Entity("FinanceAI.Core.Entities.Transaction", b =>
@@ -170,7 +242,15 @@ namespace FinanceAI.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FinanceAI.Core.Entities.DebtCategory", "DebtCategory")
+                        .WithMany("Debts")
+                        .HasForeignKey("DebtCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AppUser");
+
+                    b.Navigation("DebtCategory");
                 });
 
             modelBuilder.Entity("FinanceAI.Core.Entities.Transaction", b =>
@@ -189,6 +269,11 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.Navigation("Debts");
 
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.DebtCategory", b =>
+                {
+                    b.Navigation("Debts");
                 });
 #pragma warning restore 612, 618
         }

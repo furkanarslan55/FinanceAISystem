@@ -19,5 +19,8 @@ namespace FinanceAI.Core.Entities
         // İlişki: Bu borç hangi kullanıcıya ait?
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; } = null!;
+
+        public int DebtCategoryId { get; set; }
+        public DebtCategory DebtCategory { get; set; } = null!;
     }
 }
