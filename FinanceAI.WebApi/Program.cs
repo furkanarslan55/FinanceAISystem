@@ -1,26 +1,33 @@
-
 using FinanceAI.Application;
 using FinanceAI.Infrastructure;
 using FinanceAI.WebApi.Middlewares;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// 1. Katman Servislerini Ekle (Infrastructure & Application)
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+// 2. JWT Authentication Yapýlandýrmasý (Gümrük Kapýsý Ayarlarý)
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+});
+
+
+// 3. Swagger Yapýlandýrmasý (Kilit Ýkonu ve JWT Desteði)
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinanceAI API", Version = "v1" });
 
-    // Swagger'a JWT desteði ekliyoruz
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -28,7 +35,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "JWT Token'ýnýzý buraya girin: Bearer token"
+        Description = "Token deðerini girin. (Baþýna Bearer eklemenize gerek yoktur, otomatik eklenir)."
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -45,14 +52,19 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 4. HTTP Request Pipeline (Middleware Sýralamasý - ÇOK KRÝTÝK!)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Global Hata Yönetimi
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
+
+// SIRALAMA DÝKKAT: Önce Kimlik Doðrula (Sen kimsin?), Sonra Yetkilendir (Girebilir misin?)
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -39,7 +39,7 @@ namespace FinanceAI.Infrastructure.Services
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
                 claims: claims,
-                expires: expires,
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds
             );
 
