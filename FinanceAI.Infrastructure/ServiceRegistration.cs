@@ -1,6 +1,7 @@
 ﻿using FinanceAI.Application.Interfaces;
 using FinanceAI.Core.Interfaces;
 using FinanceAI.Infrastructure.Context;
+using FinanceAI.Infrastructure.Features.Incomes;
 using FinanceAI.Infrastructure.Repositories;
 using FinanceAI.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,14 +24,14 @@ namespace FinanceAI.Infrastructure
             // Repository ve UnitOfWork Kayıtları
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IDebtRepository, DebtRepository>();
+
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
-            services.AddHttpContextAccessor();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
-
+            services.AddScoped<IIncomeRepository, IncomeRepository>();
+            services.AddHttpContextAccessor();
+          
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {

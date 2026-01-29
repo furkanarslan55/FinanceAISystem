@@ -18,9 +18,7 @@ namespace FinanceAI.Core.Entities
         public decimal MonthlyIncome { get; set; } // Aylık toplam gelir
         public decimal TotalDebtAmount { get; set; } // Toplam borç yükü
 
-        // Navigation Properties (İlişkiler)
-        // Bir kullanıcının birden fazla borcu ve harcaması olabilir.
-        public ICollection<Debt> Debts { get; set; } = new List<Debt>();
-        public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>(); // değerin null olmaması için null! kullanmadım, boş liste atadım.
+     
+
     }
 }

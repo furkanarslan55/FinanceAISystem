@@ -1,4 +1,5 @@
 ﻿using FinanceAI.Core.Entities;
+using FinanceAI.Core.Entities.Incomes;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,13 @@ namespace FinanceAI.Infrastructure.Context
 
 
         public DbSet<AppUser> Users { get; set; }
-        public DbSet<Debt> Debts { get; set; }
-        public DbSet<Transaction> Transactions { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
 
+    
+
+        public DbSet<Income> Incomes { get; set; }
+
+        public DbSet<IncomeCategory> IncomeCategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Tüm Configuration dosyalarını (varsa) otomatik olarak uygular
