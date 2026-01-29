@@ -20,7 +20,7 @@ namespace FinanceAI.Infrastructure.Repositories
         {
             // Sorgu SQL seviyesinde (database'de) çalışır, performansı korur.
             return await _context.Debts
-                .Include(x => x.DebtCategory)
+           
                 .Where(x => x.AppUserId == userId && !x.IsDeleted)
                 .OrderByDescending(x => x.InterestRate) // En yüksek faizli olanı başa alalım (AI için hazırlık)
                 .ToListAsync();

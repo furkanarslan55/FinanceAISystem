@@ -20,7 +20,6 @@ namespace FinanceAI.Core.Entities
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; } = null!;
 
-        public int DebtCategoryId { get; set; }
-        public DebtCategory DebtCategory { get; set; } = null!;
+    
     }
 }

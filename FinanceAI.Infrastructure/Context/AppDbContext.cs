@@ -21,7 +21,7 @@ namespace FinanceAI.Infrastructure.Context
         public DbSet<Debt> Debts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
-        public DbSet<DebtCategory> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
