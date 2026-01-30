@@ -12,6 +12,8 @@ namespace FinanceAI.Core.Interfaces
     {
         Task<T?> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
+
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
         void Update(T entity);

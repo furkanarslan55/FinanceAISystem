@@ -21,7 +21,11 @@ namespace FinanceAI.Infrastructure.Repositories
             _context = context;
             _dbSet = _context.Set<T>();
         }
-
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        {
+            // EF Core bağımlılığı burada (Infrastructure katmanında) kalıyor
+            return await _context.Set<T>().Where(predicate).ToListAsync();
+        }
         public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
 
         public async Task<IEnumerable<T>> GetAllAsync() => await _dbSet.ToListAsync();

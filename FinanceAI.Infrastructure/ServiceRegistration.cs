@@ -1,4 +1,5 @@
 ﻿using FinanceAI.Application.Interfaces;
+using FinanceAI.Core.Entities.Incomes;
 using FinanceAI.Core.Interfaces;
 using FinanceAI.Infrastructure.Context;
 using FinanceAI.Infrastructure.Features.Incomes;
@@ -30,6 +31,7 @@ namespace FinanceAI.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IIncomeRepository, IncomeRepository>();
+            services.AddScoped<IIncomeCategoryRepository, IncomeCategoryRepository>();
             services.AddHttpContextAccessor();
           
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
