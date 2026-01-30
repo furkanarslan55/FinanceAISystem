@@ -1,4 +1,4 @@
-﻿using FinanceAI.Core.Entities;
+﻿using FinanceAI.Core.Entities.AppUserEntity;
 using FinanceAI.Core.Interfaces;
 using FinanceAI.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;

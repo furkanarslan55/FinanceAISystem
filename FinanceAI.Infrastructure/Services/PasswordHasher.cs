@@ -1,5 +1,5 @@
 ﻿using FinanceAI.Application.Interfaces;
-using FinanceAI.Core.Entities;
+using FinanceAI.Core.Entities.AppUserEntity;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;

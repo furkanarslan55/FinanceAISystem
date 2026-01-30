@@ -1,5 +1,5 @@
 ﻿using FinanceAI.Application.Dtos.AppUser;
-using FinanceAI.Core.Entities;
+using FinanceAI.Core.Entities.AppUserEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

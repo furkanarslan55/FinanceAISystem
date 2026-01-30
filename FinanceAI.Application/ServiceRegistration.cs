@@ -5,6 +5,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper;
+using FinanceAI.Application.Features.FixedCost;
 
 
 namespace FinanceAI.Application
@@ -16,7 +17,12 @@ namespace FinanceAI.Application
             services.AddScoped<IUserService, UserService>();
           services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IIncomeCategoryService, IncomeCategoryService>();
-           services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            //services.AddScoped<IFixedCostService, FixedCostService>();
+            services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>();
+
+
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddFluentValidationAutoValidation();
         }
     }

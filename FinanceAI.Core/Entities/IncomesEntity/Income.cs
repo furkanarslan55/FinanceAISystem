@@ -1,4 +1,5 @@
 ﻿using FinanceAI.Core.Common;
+using FinanceAI.Core.Entities.AppUserEntity;
 using FinanceAI.Core.Entities.Incomes;
 using System;
 using System.Collections.Generic;

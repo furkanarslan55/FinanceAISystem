@@ -22,7 +22,7 @@ namespace FinanceAI.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("FinanceAI.Core.Entities.AppUser", b =>
+            modelBuilder.Entity("FinanceAI.Core.Entities.AppUserEntity.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,82 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("FinanceAI.Core.Entities.Incomes.Income", b =>
+            modelBuilder.Entity("FinanceAI.Core.Entities.FixedCostEntity.FixedCost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FixedCostCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("FixedCostCategoryId");
+
+                    b.ToTable("FixedCosts");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.FixedCostEntity.FixedCostCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("FixedCostCategories");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.Income", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,7 +191,7 @@ namespace FinanceAI.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -142,10 +217,40 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.ToTable("IncomeCategories");
                 });
 
-            modelBuilder.Entity("FinanceAI.Core.Entities.Incomes.Income", b =>
+            modelBuilder.Entity("FinanceAI.Core.Entities.FixedCostEntity.FixedCost", b =>
                 {
-                    b.HasOne("FinanceAI.Core.Entities.AppUser", "AppUser")
-                        .WithMany()
+                    b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
+                        .WithMany("FixedCosts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FinanceAI.Core.Entities.FixedCostEntity.FixedCostCategory", "FixedCostCategory")
+                        .WithMany("FixedCosts")
+                        .HasForeignKey("FixedCostCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("FixedCostCategory");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.FixedCostEntity.FixedCostCategory", b =>
+                {
+                    b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
+                        .WithMany("FixedCostCategories")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.Income", b =>
+                {
+                    b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
+                        .WithMany("Incomes")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -153,7 +258,7 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.HasOne("FinanceAI.Core.Entities.Incomes.IncomeCategory", "IncomeCategory")
                         .WithMany("Incomes")
                         .HasForeignKey("IncomeCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AppUser");
@@ -163,11 +268,29 @@ namespace FinanceAI.Infrastructure.Migrations
 
             modelBuilder.Entity("FinanceAI.Core.Entities.Incomes.IncomeCategory", b =>
                 {
-                    b.HasOne("FinanceAI.Core.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
+                    b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
+                        .WithMany("IncomeCategories")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.AppUserEntity.AppUser", b =>
+                {
+                    b.Navigation("FixedCostCategories");
+
+                    b.Navigation("FixedCosts");
+
+                    b.Navigation("IncomeCategories");
+
+                    b.Navigation("Incomes");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.FixedCostEntity.FixedCostCategory", b =>
+                {
+                    b.Navigation("FixedCosts");
                 });
 
             modelBuilder.Entity("FinanceAI.Core.Entities.Incomes.IncomeCategory", b =>
