@@ -1,4 +1,5 @@
 ﻿using FinanceAI.Core.Common;
+using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Entities.Incomes;
 
@@ -23,6 +24,9 @@ namespace FinanceAI.Core.Entities.AppUserEntity
         public ICollection<FixedCostCategory> FixedCostCategories { get; set; }
             = new List<FixedCostCategory>();
 
+        public ICollection<DebtCategory> DebtCategories { get; set; } 
+            = new List<DebtCategory>();
 
+        public ICollection<Debt> Debts { get; set; } = new List<Debt>();
     }
 }

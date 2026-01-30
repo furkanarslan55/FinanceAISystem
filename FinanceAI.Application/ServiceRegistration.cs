@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using AutoMapper;
 using FinanceAI.Application.Features.FixedCost;
+using FinanceAI.Application.Features.Debts;
 
 
 namespace FinanceAI.Application
@@ -19,8 +20,8 @@ namespace FinanceAI.Application
             services.AddScoped<IIncomeCategoryService, IncomeCategoryService>();
             //services.AddScoped<IFixedCostService, FixedCostService>();
             services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>();
-
-
+            services.AddScoped<IDebtCategoryServices, DebtCategoryServices>();
+           services.AddScoped<IDebtServices, DebtServices>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddFluentValidationAutoValidation();

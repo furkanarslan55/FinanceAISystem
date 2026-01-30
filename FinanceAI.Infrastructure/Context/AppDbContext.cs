@@ -1,5 +1,6 @@
 ﻿using FinanceAI.Core.Entities;
 using FinanceAI.Core.Entities.AppUserEntity;
+using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Entities.Incomes;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,11 @@ namespace FinanceAI.Infrastructure.Context
 
 
         public DbSet<AppUser> Users { get; set; }
+
+
+        public DbSet<Debt> Debts { get; set; }
+        public DbSet<DebtCategory> DebtCategories { get; set; }
+
 
         public DbSet<FixedCost> FixedCosts { get; set; }
         public DbSet<FixedCostCategory> FixedCostCategories { get; set; }

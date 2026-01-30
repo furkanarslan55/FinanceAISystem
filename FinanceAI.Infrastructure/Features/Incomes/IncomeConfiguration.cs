@@ -22,6 +22,12 @@ namespace FinanceAI.Infrastructure.Features.Incomes
                    .WithMany(au => au.Incomes)
                    .HasForeignKey(i => i.AppUserId)
                    .OnDelete(DeleteBehavior.Cascade); // Silme davranışı
+
+
+
+            //ek not : cascade delete: Bir AppUser silindiğinde, ona ait tüm Income kayıtları da silinir.
+            // ek not : restrict delete: Bir IncomeCategory silinmeye çalışıldığında, o kategoriye ait Income kayıtları varsa silme işlemi engellenir.
+
         }
 
     }

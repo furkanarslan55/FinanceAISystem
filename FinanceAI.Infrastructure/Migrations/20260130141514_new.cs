@@ -33,6 +33,30 @@ namespace FinanceAI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DebtCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DebtCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DebtCategories_Users_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FixedCostCategories",
                 columns: table => new
                 {
@@ -78,6 +102,39 @@ namespace FinanceAI.Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Debts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DebtCategoryId = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Debts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Debts_DebtCategories_DebtCategoryId",
+                        column: x => x.DebtCategoryId,
+                        principalTable: "DebtCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Debts_Users_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,6 +200,21 @@ namespace FinanceAI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_DebtCategories_AppUserId",
+                table: "DebtCategories",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Debts_AppUserId",
+                table: "Debts",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Debts_DebtCategoryId",
+                table: "Debts",
+                column: "DebtCategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FixedCostCategories_AppUserId",
                 table: "FixedCostCategories",
                 column: "AppUserId");
@@ -177,10 +249,16 @@ namespace FinanceAI.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Debts");
+
+            migrationBuilder.DropTable(
                 name: "FixedCosts");
 
             migrationBuilder.DropTable(
                 name: "Incomes");
+
+            migrationBuilder.DropTable(
+                name: "DebtCategories");
 
             migrationBuilder.DropTable(
                 name: "FixedCostCategories");
