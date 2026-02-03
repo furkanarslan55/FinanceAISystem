@@ -2,11 +2,13 @@
 using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Entities.FixedCostsEntity;
 using FinanceAI.Core.Entities.Incomes;
+using FinanceAI.Core.Entities.VariableCostEntity;
 using FinanceAI.Core.Interfaces;
 using FinanceAI.Infrastructure.Context;
 using FinanceAI.Infrastructure.Features.Debts;
 using FinanceAI.Infrastructure.Features.FixedCosts;
 using FinanceAI.Infrastructure.Features.Incomes;
+using FinanceAI.Infrastructure.Features.VariableCosts;
 using FinanceAI.Infrastructure.Repositories;
 using FinanceAI.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -37,6 +39,8 @@ namespace FinanceAI.Infrastructure
             services.AddScoped<IIncomeRepository, IncomeRepository>();
             services.AddScoped<IIncomeCategoryRepository, IncomeCategoryRepository>();
             services.AddScoped<IFixedCostCategoryRepository, FixedCostCategoryRepository>();
+            services.AddScoped<IVariableCostRepository, VariableCostRepository>();
+            services.AddScoped<IVariableCostCategoryRepository, VariableCostCategoryRepository>();
 
             services.AddScoped<IDebtCategoryRepository, DebtCategoryRepository>();
             services.AddScoped<IDebtRepository, DebtRepository>();

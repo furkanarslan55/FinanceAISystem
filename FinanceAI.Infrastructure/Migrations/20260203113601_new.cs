@@ -105,6 +105,30 @@ namespace FinanceAI.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "VariableCostCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VariableCostCategories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VariableCostCategories_Users_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Debts",
                 columns: table => new
                 {
@@ -113,7 +137,7 @@ namespace FinanceAI.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DebtCategoryId = table.Column<int>(type: "int", nullable: false),
                     AppUserId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -196,7 +220,39 @@ namespace FinanceAI.Infrastructure.Migrations
                         column: x => x.AppUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VariableCosts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    VariableCostCategoryId = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VariableCosts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VariableCosts_Users_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_VariableCosts_VariableCostCategories_VariableCostCategoryId",
+                        column: x => x.VariableCostCategoryId,
+                        principalTable: "VariableCostCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -243,6 +299,26 @@ namespace FinanceAI.Infrastructure.Migrations
                 name: "IX_Incomes_IncomeCategoryId",
                 table: "Incomes",
                 column: "IncomeCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariableCostCategories_AppUserId",
+                table: "VariableCostCategories",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariableCosts_AppUserId",
+                table: "VariableCosts",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariableCosts_Name",
+                table: "VariableCosts",
+                column: "Name");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VariableCosts_VariableCostCategoryId",
+                table: "VariableCosts",
+                column: "VariableCostCategoryId");
         }
 
         /// <inheritdoc />
@@ -258,6 +334,9 @@ namespace FinanceAI.Infrastructure.Migrations
                 name: "Incomes");
 
             migrationBuilder.DropTable(
+                name: "VariableCosts");
+
+            migrationBuilder.DropTable(
                 name: "DebtCategories");
 
             migrationBuilder.DropTable(
@@ -265,6 +344,9 @@ namespace FinanceAI.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "IncomeCategories");
+
+            migrationBuilder.DropTable(
+                name: "VariableCostCategories");
 
             migrationBuilder.DropTable(
                 name: "Users");

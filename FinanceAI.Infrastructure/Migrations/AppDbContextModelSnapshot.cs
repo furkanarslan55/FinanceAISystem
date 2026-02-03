@@ -87,7 +87,6 @@ namespace FinanceAI.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DueDate")
@@ -298,6 +297,85 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.ToTable("IncomeCategories");
                 });
 
+            modelBuilder.Entity("FinanceAI.Core.Entities.VariableCostEntity.VariableCostCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("VariableCostCategories");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.VariableCostEntity.VariablesCosts", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("VariableCostCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("Name");
+
+                    b.HasIndex("VariableCostCategoryId");
+
+                    b.ToTable("VariableCosts");
+                });
+
             modelBuilder.Entity("FinanceAI.Core.Entities.DebtEntity.Debt", b =>
                 {
                     b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
@@ -363,7 +441,7 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
                         .WithMany("Incomes")
                         .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("FinanceAI.Core.Entities.Incomes.IncomeCategory", "IncomeCategory")
@@ -388,6 +466,36 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.Navigation("AppUser");
                 });
 
+            modelBuilder.Entity("FinanceAI.Core.Entities.VariableCostEntity.VariableCostCategory", b =>
+                {
+                    b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
+                        .WithMany("VariableCostCategories")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.VariableCostEntity.VariablesCosts", b =>
+                {
+                    b.HasOne("FinanceAI.Core.Entities.AppUserEntity.AppUser", "AppUser")
+                        .WithMany("VariablesCosts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinanceAI.Core.Entities.VariableCostEntity.VariableCostCategory", "VariableCostCategory")
+                        .WithMany("VariableCosts")
+                        .HasForeignKey("VariableCostCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("VariableCostCategory");
+                });
+
             modelBuilder.Entity("FinanceAI.Core.Entities.AppUserEntity.AppUser", b =>
                 {
                     b.Navigation("DebtCategories");
@@ -401,6 +509,10 @@ namespace FinanceAI.Infrastructure.Migrations
                     b.Navigation("IncomeCategories");
 
                     b.Navigation("Incomes");
+
+                    b.Navigation("VariableCostCategories");
+
+                    b.Navigation("VariablesCosts");
                 });
 
             modelBuilder.Entity("FinanceAI.Core.Entities.DebtEntity.DebtCategory", b =>
@@ -416,6 +528,11 @@ namespace FinanceAI.Infrastructure.Migrations
             modelBuilder.Entity("FinanceAI.Core.Entities.Incomes.IncomeCategory", b =>
                 {
                     b.Navigation("Incomes");
+                });
+
+            modelBuilder.Entity("FinanceAI.Core.Entities.VariableCostEntity.VariableCostCategory", b =>
+                {
+                    b.Navigation("VariableCosts");
                 });
 #pragma warning restore 612, 618
         }

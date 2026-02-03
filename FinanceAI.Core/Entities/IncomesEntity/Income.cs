@@ -1,11 +1,6 @@
 ﻿using FinanceAI.Core.Common;
 using FinanceAI.Core.Entities.AppUserEntity;
 using FinanceAI.Core.Entities.Incomes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceAI.Core.Entities
 {

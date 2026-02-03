@@ -1,6 +1,8 @@
 ﻿using FinanceAI.Application.Features.Debts;
 using FinanceAI.Application.Features.FixedCost;
 using FinanceAI.Application.Features.Incomes;
+using FinanceAI.Application.Features.VariableCost.VariableCostService;
+using FinanceAI.Application.Features.VariableCosts.VariableCostCategoryService;
 using FinanceAI.Application.Interfaces;
 using FinanceAI.Application.Services;
 using FluentValidation.AspNetCore;
@@ -21,7 +23,8 @@ namespace FinanceAI.Application
             services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>();
             services.AddScoped<IDebtCategoryServices, DebtCategoryServices>();
            services.AddScoped<IDebtServices, DebtServices>();
-
+            services.AddScoped<IVariableCostService, VariableCostService>();
+            services.AddScoped<IVariableCostCategoryService, VariableCostCategoryService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddFluentValidationAutoValidation();
         }

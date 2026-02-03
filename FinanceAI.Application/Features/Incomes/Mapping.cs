@@ -1,5 +1,5 @@
-﻿using FinanceAI.Core.Entities.Incomes;
-using AutoMapper;
+﻿using AutoMapper;
+using FinanceAI.Core.Entities.Incomes;
 namespace FinanceAI.Application.Features.Incomes
 {
     public class MapProfile : Profile

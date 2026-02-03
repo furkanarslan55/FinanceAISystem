@@ -3,6 +3,7 @@ using FinanceAI.Core.Entities.AppUserEntity;
 using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Entities.Incomes;
+using FinanceAI.Core.Entities.VariableCostEntity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace FinanceAI.Infrastructure.Context
         public DbSet<FixedCost> FixedCosts { get; set; }
         public DbSet<FixedCostCategory> FixedCostCategories { get; set; }
 
+        public DbSet<VariablesCosts> VariableCosts { get; set; }
+        public DbSet<VariableCostCategory> VariableCostCategories { get; set; }
 
         public DbSet<Income> Incomes { get; set; }
         public DbSet<IncomeCategory> IncomeCategories { get; set; }

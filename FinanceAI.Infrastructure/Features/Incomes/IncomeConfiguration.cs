@@ -21,7 +21,7 @@ namespace FinanceAI.Infrastructure.Features.Incomes
             builder.HasOne(i => i.AppUser)
                    .WithMany(au => au.Incomes)
                    .HasForeignKey(i => i.AppUserId)
-                   .OnDelete(DeleteBehavior.Cascade); // Silme davranışı
+                   .OnDelete(DeleteBehavior.Restrict); // Silme davranışı
 
 
 

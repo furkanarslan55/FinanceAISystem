@@ -2,6 +2,7 @@
 using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Entities.Incomes;
+using FinanceAI.Core.Entities.VariableCostEntity;
 
 
 namespace FinanceAI.Core.Entities.AppUserEntity
@@ -15,6 +16,10 @@ namespace FinanceAI.Core.Entities.AppUserEntity
 
         public decimal MonthlyIncome { get; set; }
         public decimal TotalDebtAmount { get; set; }
+
+        public ICollection<VariablesCosts> VariablesCosts { get; set; } = new List<VariablesCosts>();
+        public ICollection<VariableCostCategory> VariableCostCategories { get; set; }
+            = new List<VariableCostCategory>();
 
         public ICollection<Income> Incomes { get; set; } = new List<Income>();
         public ICollection<IncomeCategory> IncomeCategories { get; set; } = new List<IncomeCategory>();
