@@ -20,6 +20,8 @@ namespace FinanceAI.Application.Features.Debts
 
             CreateMap<DebtCreateDto, Debt>();
 
+            CreateMap<DebtUpdateDto, Debt>();
+
             CreateMap<Debt, DebtDto>();
 
 

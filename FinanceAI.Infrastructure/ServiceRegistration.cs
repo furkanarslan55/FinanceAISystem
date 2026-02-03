@@ -1,8 +1,10 @@
 ﻿using FinanceAI.Application.Interfaces;
+using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Entities.FixedCostsEntity;
 using FinanceAI.Core.Entities.Incomes;
 using FinanceAI.Core.Interfaces;
 using FinanceAI.Infrastructure.Context;
+using FinanceAI.Infrastructure.Features.Debts;
 using FinanceAI.Infrastructure.Features.FixedCosts;
 using FinanceAI.Infrastructure.Features.Incomes;
 using FinanceAI.Infrastructure.Repositories;
@@ -36,7 +38,8 @@ namespace FinanceAI.Infrastructure
             services.AddScoped<IIncomeCategoryRepository, IncomeCategoryRepository>();
             services.AddScoped<IFixedCostCategoryRepository, FixedCostCategoryRepository>();
 
-
+            services.AddScoped<IDebtCategoryRepository, DebtCategoryRepository>();
+            services.AddScoped<IDebtRepository, DebtRepository>();
 
             services.AddHttpContextAccessor();
           

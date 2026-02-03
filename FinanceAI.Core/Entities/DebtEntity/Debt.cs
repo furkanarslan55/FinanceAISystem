@@ -16,7 +16,7 @@ namespace FinanceAI.Core.Entities.DebtEntity
 
         public DateTime DueDate { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public int DebtCategoryId { get; set; }
 

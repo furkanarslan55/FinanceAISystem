@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinanceAI.Application.Features.Debts
 {
-    public record DebtCreateDto
+    public class DebtCreateDto
     {
 
 
@@ -14,6 +14,8 @@ namespace FinanceAI.Application.Features.Debts
         public decimal Amount { get; set; }
 
         public DateTime DueDate { get; set; }
+
+        public string Description { get; set;  }
 
         public int DebtCategoryId { get; set; }
 

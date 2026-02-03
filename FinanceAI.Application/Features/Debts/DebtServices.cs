@@ -12,31 +12,51 @@ namespace FinanceAI.Application.Features.Debts
         private readonly IMapper _mapper;
 
         public DebtServices(
-            ICurrentUserService currentUserService) : base(currentUserService)
+            ICurrentUserService currentUserService,IDebtRepository debtRepository,IUnitOfWork unitOfWork,IMapper mapper) : base(currentUserService)
         {
-
+            _repository = debtRepository;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
 
 
         }
 
-        public Task CreateAsync(DebtCreateDto dto)
+        public async Task CreateAsync(DebtCreateDto dto)
         {
-            throw new NotImplementedException();
+            var entity = _mapper.Map<Debt>(dto);
+            entity.AppUserId = CurrentUserId;
+           await  _repository.AddAsync(entity);
+              await _unitOfWork.CommitAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public  async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var entity =await  _repository.GetByIdAsync(id);
+            if (entity == null || entity.AppUserId != CurrentUserId)
+                throw new Exception("Borç bulunamadı veya bu işlem için yetkiniz yok.");
+            _repository.Remove(entity); //silme işlemleri asenkron olmayabilir
+            await _unitOfWork.CommitAsync();
         }
 
-        public Task<List<DebtDto>> GetAllByUserIdAsync()
+        public async Task<List<DebtDto>> GetAllByUserIdAsync()
         {
-            throw new NotImplementedException();
+            
+            var entities = await _repository.GetByIdAsync(CurrentUserId);
+
+            return _mapper.Map<List<DebtDto>>(entities);
+
+
         }
 
-        public Task UpdateAsync(DebtUpdateDto dto)
+        public async Task UpdateAsync(DebtUpdateDto dto)
         {
-            throw new NotImplementedException();
+            var entity = await  _repository.GetByIdAsync(dto.Id);
+            if (entity == null || entity.AppUserId != CurrentUserId)
+                throw new Exception("Borç bulunamadı veya bu işlem için yetkiniz yok.");
+
+            _mapper.Map(dto, entity);
+            _repository.Update(entity); 
+            await _unitOfWork.CommitAsync();
         }
     }
 }
