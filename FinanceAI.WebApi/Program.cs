@@ -13,7 +13,13 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddEndpointsApiExplorer(); builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AngularPolicy",
+//        policy => policy.WithOrigins("http://localhost:4200") // Angular'ýn adresi
+//                        .AllowAnyMethod()
+//                        .AllowAnyHeader());
+//});
 
 // 2. JWT Authentication Yapýlandýrmasý (Gümrük Kapýsý Ayarlarý)
 builder.Services.AddAuthentication(options =>
@@ -61,7 +67,7 @@ if (app.Environment.IsDevelopment())
 
 // Global Hata Yönetimi
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
+//app.UseCors("AngularPolicy");
 app.UseHttpsRedirection();
 
 // SIRALAMA DÝKKAT: Önce Kimlik Doðrula (Sen kimsin?), Sonra Yetkilendir (Girebilir misin?)
