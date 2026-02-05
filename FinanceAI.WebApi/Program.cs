@@ -1,4 +1,4 @@
-using FinanceAI.Application;
+ï»¿using FinanceAI.Application;
 using FinanceAI.Infrastructure;
 using FinanceAI.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,22 +13,32 @@ var builder = WebApplication.CreateBuilder(args);
 // ==========================================
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowUI", policy =>
+    {
+        policy.WithOrigins("https://localhost:5001", "https://localhost:7096") // UI URL'iniz
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); // â­ Cookie iÃ§in gerekli
+    });
+});
 
 builder.Services.AddControllers();
 
 // ==========================================
-// 2. JWT Authentication Yapýlandýrmasý (Eksik Olan Kýsým Buydu)
+// 2. JWT Authentication YapÄ±landÄ±rmasÄ± (Eksik Olan KÄ±sÄ±m Buydu)
 // ==========================================
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
 
 builder.Services.AddAuthentication(options =>
 {
-    // Burada varsayýlan þemayý belirliyoruz
+    // Burada varsayÄ±lan ÅŸemayÄ± belirliyoruz
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => // Ýsmi açýkça belirttik
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => // Ä°smi aÃ§Ä±kÃ§a belirttik
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
@@ -45,18 +55,12 @@ builder.Services.AddAuthentication(options =>
 });
 
 // ==========================================
-// 3. CORS Yapýlandýrmasý
+// 3. CORS YapÄ±landÄ±rmasÄ±
 // ==========================================
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader());
-});
+
 
 // ==========================================
-// 4. Swagger Yapýlandýrmasý
+// 4. Swagger YapÄ±landÄ±rmasÄ±
 // ==========================================
 builder.Services.AddSwaggerGen(c =>
 {
@@ -69,7 +73,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Token deðerini girin (Baþýna Bearer eklemeyin)."
+        Description = "Token deÄŸerini girin (BaÅŸÄ±na Bearer eklemeyin)."
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -87,9 +91,9 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // ==========================================
-// 5. Middleware Pipeline (Sýralama Çok Önemli!)
+// 5. Middleware Pipeline (SÄ±ralama Ã‡ok Ã–nemli!)
 // ==========================================
-
+app.UseCors("AllowUI");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -100,10 +104,10 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
-// CORS her zaman Auth'dan önce gelmeli
-app.UseCors("AllowAll");
+// CORS her zaman Auth'dan Ã¶nce gelmeli
 
-// Önce kimlik doðrulama, sonra yetkilendirme
+
+// Ã–nce kimlik doÄŸrulama, sonra yetkilendirme
 app.UseAuthentication();
 app.UseAuthorization();
 

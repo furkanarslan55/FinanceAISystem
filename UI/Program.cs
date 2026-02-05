@@ -1,57 +1,47 @@
-ï»¿using UI.DelegatingHandlers;
-using UI.Services.Income;
-using UI.Services.Login;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using UI.DelegatingHandlers;
+using UI.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ==========================
-// 1. MVC & VIEW YAPILANDIRMASI
-// ==========================
+// 1. MVC Servisleri
 builder.Services.AddControllersWithViews();
 
-// ==========================
-// 2. DEPENDENCY INJECTION (DI) - SERVÄ°S KAYITLARI
-// ==========================
-// Scoped: Her HTTP isteÄŸinde yeni bir nesne oluÅŸturulur.
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IIncomeService, IncomeService>();
-builder.Services.AddScoped<IIncomeCategoryService, IncomeCategoryService>();
-
-// JwtHandler ve Session eriÅŸimi iÃ§in kritik servis
+// 2. HttpContextAccessor: Cookie okumak ve yazmak için þart
 builder.Services.AddHttpContextAccessor();
 
-// ==========================
-// 3. SESSION YAPILANDIRMASI
-// ==========================
-builder.Services.AddDistributedMemoryCache(); // Session verilerini RAM'de tutar
-builder.Services.AddSession(options =>
+// 3. AuthService ve TokenHandler Kaydý
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddTransient<TokenHandler>();
+
+// 4. HttpClient Yapýlandýrmasý
+// LOGIN ÝÇÝN: TokenHandler içermeyen yalýn bir client (Döngüye girmemek için)
+builder.Services.AddHttpClient("AuthClient", client =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // 30 dk iÅŸlem yapÄ±lmazsa session dÃ¼ÅŸer
-    options.Cookie.HttpOnly = true; // TarayÄ±cÄ± tarafÄ±ndaki JS'lerin cookie'ye eriÅŸmesini engeller (GÃ¼venlik)
-    options.Cookie.IsEssential = true; // GDPR/KVKK kurallarÄ± iÃ§in zorunlu iÅŸaretleme
+    client.BaseAddress = new Uri("https://localhost:7174/");
 });
 
-// ==========================
-// 4. HTTP CLIENT & JWT HANDLER (MÄ°MARÄ°NÄ°N KALBÄ°)
-// ==========================
-// DelegatingHandler'Ä± DI konteynÄ±rÄ±na kaydediyoruz.
-builder.Services.AddTransient<JwtHandler>();
-
-// "ApiClient" isminde merkezi bir HttpClient yapÄ±landÄ±rÄ±yoruz.
-builder.Services.AddHttpClient("ApiClient", client =>
+// DÝÐER ÝÞLEMLER ÝÇÝN: Her isteðe otomatik token ekleyen client
+builder.Services.AddHttpClient("BackendApi", client =>
 {
-    // appsettings.json dosyasÄ±ndan BaseUrl'i okuyoruz. 
-    // Yoksa hata almamak iÃ§in bir default deÄŸer veya kontrol eklemek iyi olur.
-    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"] ?? "https://localhost:7174/api/";
-    client.BaseAddress = new Uri(baseUrl);
+    client.BaseAddress = new Uri("https://localhost:7174/");
 })
-.AddHttpMessageHandler<JwtHandler>(); // Bu client Ã¼zerinden giden her isteÄŸe otomatik Token eklenir.
+.AddHttpMessageHandler<TokenHandler>();
+
+// 5. Cookie tabanlý Authentication Ayarlarý
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "FinanceAI.Session"; // Çerezin adý
+        options.LoginPath = "/Account/Login";     // Yetkisiz giriþte yönlendirilecek sayfa
+        options.LogoutPath = "/Account/Logout";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // 1 saatlik oturum
+        options.SlidingExpiration = true; // Kullanýcý iþlem yaptýkça süre uzasýn
+    });
 
 var app = builder.Build();
 
-// ==========================
-// 5. MIDDLEWARE PIPELINE (SIRALAMA KRÄ°TÄ°KTÄ°R)
-// ==========================
+// 6. Middleware Pipeline (Sýralama Önemlidir!)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -61,19 +51,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseRouting(); // Rotalama sistemini baÅŸlatÄ±r
+app.UseRouting();
 
-// ðŸ”¥ DÄ°KKAT: UseSession, UseRouting'den SONRA, Authentication'dan Ã–NCE gelmelidir.
-app.UseSession();
+// Authentication her zaman Authorization'dan ÖNCE gelmeli
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.UseAuthentication(); // Kim olduÄŸun?
-app.UseAuthorization();  // Yetkin ne?
-
-// ==========================
-// 6. ROTA YAPILANDIRMASI
-// ==========================
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Login}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}");
 
 app.Run();

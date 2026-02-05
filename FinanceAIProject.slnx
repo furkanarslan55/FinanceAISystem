@@ -3,5 +3,5 @@
   <Project Path="FinanceAI.Core/FinanceAI.Core.csproj" />
   <Project Path="FinanceAI.Infrastructure/FinanceAI.Infrastructure.csproj" />
   <Project Path="FinanceAI.WebApi/FinanceAI.WebApi.csproj" />
-  <Project Path="UI/UI.csproj" Id="0aaf992d-b2ec-4d96-a2d8-c643efe97d9b" />
+  <Project Path="UI/UI.csproj" Id="89d9b618-2030-4bc1-b403-3590230af941" />
 </Solution>

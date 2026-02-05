@@ -1,0 +1,27 @@
+﻿@model UI.Models.Auth.UserLoginDto
+
+@{
+    Layout = null; // Şimdilik boş bir sayfa olarak görelim
+}
+
+<div class="login-container">
+    <h2>Giriş Yap</h2>
+
+    <form asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div>
+            <label>E-posta</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div>
+            <label>Şifre</label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <button type="submit">Giriş Yap</button>
+    </form>
+</div>
