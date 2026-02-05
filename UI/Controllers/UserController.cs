@@ -16,36 +16,42 @@ namespace UI.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            // Eğer kullanıcı zaten giriş yapmışsa tekrar login sayfasını görmesin
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("JWT")))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var token = await _authService.LoginAsync(model);
-
-            if (token == null)
+            if (!ModelState.IsValid)
             {
-                ViewBag.Error = "Email veya şifre hatalı";
-                return View();
+                return View(model);
             }
 
-            // JWT'yi COOKIE içinde sakla (EN DOĞRU YÖNTEM)
-            Response.Cookies.Append("jwt", token, new CookieOptions
+            var token = await _authService.LoginAsync(model);
+
+            if (string.IsNullOrEmpty(token)) // null veya boş gelme kontrolü
             {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict
-            });
+                ViewBag.Error = "Email veya şifre hatalı";
+                return View(model);
+            }
+
+            // JWT'yi SESSION içinde sakla
+            HttpContext.Session.SetString("JWT", token);
 
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult Logout()
         {
-            Response.Cookies.Delete("jwt");
+            // Session'ı tamamen temizlemek sadece JWT'yi silmekten daha güvenlidir
+            HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
     }
-
 }

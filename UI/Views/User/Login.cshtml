@@ -9,58 +9,132 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Giriş Yap - Borç Takip Sistemi</title>
+    <title>Giriş Yap | Borç Takip Sistemi</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4f46e5;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-gradient);
             font-family: 'Inter', sans-serif;
             height: 100vh;
+            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .login-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: #ffffff;
+            padding: 3.5rem 3rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+        }
+
+        .login-title {
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+        }
+
+        .btn-login {
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        .alert-error {
+            background-color: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fee2e2;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-card text-center">
-        <h3 class="fw-bold mb-1">Tekrar Hoş Geldiniz</h3>
-        <p class="text-muted mb-4 small">Lütfen hesap bilgilerinizle giriş yapın.</p>
-
-        <form asp-action="Login" method="post" class="text-start">
-            <div class="mb-3">
-                <label class="form-label small fw-bold">E-posta</label>
-                <input asp-for="Email" class="form-control form-control-lg" placeholder="E-postanızı girin">
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label small fw-bold">Şifre</label>
-                <input asp-for="Password" type="password" class="form-control form-control-lg" placeholder="••••••••">
-            </div>
-
-            @if (ViewBag.Error != null)
-            {
-                <div class="alert alert-danger py-2 small">@ViewBag.Error</div>
-            }
-
-            <button type="submit" class="btn btn-primary w-100 btn-lg shadow-sm mt-3">Giriş Yap</button>
-        </form>
-
-        <div class="mt-4 small">
-            <a href="/" class="text-decoration-none text-muted">← Anasayfaya Dön</a>
+    <div class="login-card">
+        <div class="text-center mb-5">
+            <h2 class="login-title">Giriş Yapın</h2>
+            <p class="text-muted small">Finance-AI sistemine hoş geldiniz.</p>
         </div>
+
+        <div id="errorMessage" class="alert-error text-center"></div>
+
+        <form id="loginForm">
+            <div class="mb-4">
+                <label class="form-label">E-posta</label>
+                <input id="email" type="email" class="form-control" placeholder="Örn: ad@mail.com" required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Şifre</label>
+                <input id="password" type="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-login w-100">Oturum Aç</button>
+        </form>
     </div>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#loginForm").on("submit", function (e) {
+                e.preventDefault();
+
+                const loginData = {
+                    email: $("#email").val(),
+                    password: $("#password").val()
+                };
+
+                fetch('https://localhost:7174/api/Users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(loginData)
+                })
+                .then(async response => {
+                    const result = await response.json();
+                    if (!response.ok) {
+                        throw new Error(result.message || 'Giriş başarısız!');
+                    }
+                    return result;
+                })
+                .then(data => {
+                    // API'den dönen property adını kontrol et (küçük/büyük harf duyarlı olabilir)
+                    // data.token veya data.accessToken
+                    const token = data.token || data.accessToken;
+
+                    if (token) {
+                        localStorage.setItem("token", token);
+                        window.location.href = "/Home/Index";
+                    } else {
+                        throw new Error("Token alınamadı!");
+                    }
+                })
+                .catch(error => {
+                    $("#errorMessage").text(error.message).fadeIn();
+                });
+            });
+        });
+    </script>
 </body>
 </html>

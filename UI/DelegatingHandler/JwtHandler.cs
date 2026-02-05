@@ -13,20 +13,19 @@ namespace UI.DelegatingHandlers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(
-            HttpRequestMessage request,
-            CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = _httpContextAccessor.HttpContext?
-                .Request.Cookies["jwt"];
+            var context = _httpContextAccessor.HttpContext;
+            var token = context?.Session.GetString("JWT");
 
             if (!string.IsNullOrEmpty(token))
             {
-                request.Headers.Authorization =
-                    new AuthenticationHeaderValue("Bearer", token);
+                // ÖNEMLİ: Eğer token'ın başında zaten "Bearer " varsa bunu temizle veya 
+                // direkt ekle. Genelde sadece saf token saklanır.
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
-            return base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken);
         }
     }
 }

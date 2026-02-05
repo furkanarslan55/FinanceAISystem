@@ -39,5 +39,12 @@ namespace FinanceAI.WebApi.Controllers
             var result = await _userService.LoginAsync(loginDto);
             return Ok(result);
         }
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            // Stateless yapıda sunucu bir şeyi silmez.
+            // Sadece başarılı yanıt döner.
+            return Ok(new { message = "Başarıyla çıkış yapıldı." });
+        }
     }
 }

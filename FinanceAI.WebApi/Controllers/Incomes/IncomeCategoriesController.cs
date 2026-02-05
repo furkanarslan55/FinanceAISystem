@@ -27,7 +27,7 @@ namespace FinanceAI.WebApi.Controllers.Incomes
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(IncomeCategoryCreateDto dto)
+        public async Task<IActionResult> Create([FromBody] IncomeCategoryCreateDto dto)
         {
             // UserId parametresi kalktı, servis bunu token'dan hallediyor.
             await _service.CreateAsync(dto);

@@ -8,28 +8,56 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Katman Servislerini Ekle (Infrastructure & Application)
+// ==========================================
+// 1. Katman Servisleri (Infrastructure & Application)
+// ==========================================
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 builder.Services.AddControllers();
-//builder.Services.AddEndpointsApiExplorer(); builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AngularPolicy",
-//        policy => policy.WithOrigins("http://localhost:4200") // Angular'ýn adresi
-//                        .AllowAnyMethod()
-//                        .AllowAnyHeader());
-//});
 
-// 2. JWT Authentication Yapýlandýrmasý (Gümrük Kapýsý Ayarlarý)
+// ==========================================
+// 2. JWT Authentication Yapýlandýrmasý (Eksik Olan Kýsým Buydu)
+// ==========================================
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
+
 builder.Services.AddAuthentication(options =>
 {
+    // Burada varsayýlan þemayý belirliyoruz
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => // Ýsmi açýkça belirttik
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        ClockSkew = TimeSpan.Zero
+    };
 });
 
+// ==========================================
+// 3. CORS Yapýlandýrmasý
+// ==========================================
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
 
-// 3. Swagger Yapýlandýrmasý (Kilit Ýkonu ve JWT Desteði)
+// ==========================================
+// 4. Swagger Yapýlandýrmasý
+// ==========================================
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinanceAI API", Version = "v1" });
@@ -41,7 +69,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Token deðerini girin. (Baþýna Bearer eklemenize gerek yoktur, otomatik eklenir)."
+        Description = "Token deðerini girin (Baþýna Bearer eklemeyin)."
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -58,19 +86,24 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// 4. HTTP Request Pipeline (Middleware Sýralamasý - ÇOK KRÝTÝK!)
+// ==========================================
+// 5. Middleware Pipeline (Sýralama Çok Önemli!)
+// ==========================================
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// Global Hata Yönetimi
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-//app.UseCors("AngularPolicy");
+
 app.UseHttpsRedirection();
 
-// SIRALAMA DÝKKAT: Önce Kimlik Doðrula (Sen kimsin?), Sonra Yetkilendir (Girebilir misin?)
+// CORS her zaman Auth'dan önce gelmeli
+app.UseCors("AllowAll");
+
+// Önce kimlik doðrulama, sonra yetkilendirme
 app.UseAuthentication();
 app.UseAuthorization();
 
