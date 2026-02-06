@@ -12,6 +12,7 @@ namespace FinanceAI.WebApi.Controllers.Incomes
     {
         private readonly IIncomeService _incomeService;
 
+
         public IncomeController(IIncomeService incomeService)
         {
             _incomeService = incomeService;

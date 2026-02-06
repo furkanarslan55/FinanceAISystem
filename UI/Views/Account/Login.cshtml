@@ -1,27 +1,190 @@
 ﻿@model UI.Models.Auth.UserLoginDto
-
 @{
-    Layout = null; // Şimdilik boş bir sayfa olarak görelim
+    Layout = null;
 }
 
-<div class="login-container">
-    <h2>Giriş Yap</h2>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --error: #ef4444;
+        }
 
-    <form asp-action="Login" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        <div>
-            <label>E-posta</label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            color: var(--text);
+        }
+
+        .login-card {
+            background: var(--card);
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+            .login-card:hover {
+                transform: translateY(-4px);
+            }
+
+        .card-header {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2.25rem 2rem 1.75rem;
+            text-align: center;
+        }
+
+            .card-header h2 {
+                font-size: 1.75rem;
+                font-weight: 600;
+                margin: 0;
+                letter-spacing: -0.025em;
+            }
+
+        .card-body {
+            padding: 2rem 2.25rem 2.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.6rem;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: #f9fafb;
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+                background: white;
+            }
+
+        .input-icon {
+            position: absolute;
+            right: 1rem;
+            top: 2.45rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.35rem;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.6rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 1rem;
+        }
+
+            .btn-login:hover {
+                background: var(--primary-dark);
+                transform: translateY(-2px);
+                box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+            }
+
+        .validation-summary {
+            color: var(--error);
+            background: #fef2f2;
+            padding: 0.9rem 1.25rem;
+            border-radius: 0.6rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        @@media (max-width: 480px) {
+            .card-body {
+                padding: 1.75rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="card-header">
+            <h2>Giriş Yap</h2>
         </div>
 
-        <div>
-            <label>Şifre</label>
-            <input asp-for="Password" type="password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-        <button type="submit">Giriş Yap</button>
-    </form>
-</div>
+            <form asp-action="Login" method="post">
+                <div class="form-group">
+                    <label class="form-label" asp-for="Email">E-posta adresi</label>
+                    <input asp-for="Email" class="form-control" placeholder="ornek@email.com" autocomplete="email" />
+                    <i class="fas fa-envelope input-icon"></i>
+                    <span asp-validation-for="Email" class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" asp-for="Password">Şifre</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="••••••••" autocomplete="current-password" />
+                    <i class="fas fa-lock input-icon"></i>
+                    <span asp-validation-for="Password" class="error-message"></span>
+                </div>
+
+                <button type="submit" class="btn-login">Giriş Yap</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Client-side validation için (isteğe bağlı ama önerilir) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+</html>

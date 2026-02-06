@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using UI.DelegatingHandlers;
 using UI.Services.Auth;
+using UI.Services.Incomes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,8 @@ builder.Services.AddHttpContextAccessor();
 // 3. AuthService ve TokenHandler Kaydý
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddTransient<TokenHandler>();
-
+builder.Services.AddScoped<IIncomeCategoryService, IncomeCategoryService>();
+builder.Services.AddScoped<IIncomeService, IncomeService>();
 // 4. HttpClient Yapýlandýrmasý
 // LOGIN ÝÇÝN: TokenHandler içermeyen yalýn bir client (Döngüye girmemek için)
 builder.Services.AddHttpClient("AuthClient", client =>
