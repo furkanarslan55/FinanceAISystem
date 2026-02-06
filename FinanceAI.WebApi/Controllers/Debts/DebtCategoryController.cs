@@ -17,17 +17,22 @@ namespace FinanceAI.WebApi.Controllers.Debts
             _debtCategoryServices = debtCategoryServices;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllByUserIdAsync()
+        {
+            var categories = await _debtCategoryServices.GetAllByUserIdAsync();
+            return Ok(categories);
+        }
 
 
-
-        [HttpPost("create")]
+        [HttpPost]
         public async Task<IActionResult> CreateAsync(DebtCategoryCreateDto dto)
         {
             await _debtCategoryServices.CreateAsync(dto);
             return Ok();
         }
 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             await _debtCategoryServices.DeleteAsync(id);

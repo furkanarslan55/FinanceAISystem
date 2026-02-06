@@ -18,6 +18,13 @@ namespace FinanceAI.WebApi.Controllers.Debts
             _debtServices = debtServices;
 
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var debts = await _debtServices.GetAllByUserIdAsync();
+            return Ok(debts);
+        }
+
 
         [HttpPost("create-debt")]
         public async Task<IActionResult> CreateDebt (DebtCreateDto dto)

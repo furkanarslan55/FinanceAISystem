@@ -1,0 +1,50 @@
+﻿    @model UI.Models.Debt.DebtCategoryCreateDto
+
+@{
+    ViewData["Title"] = "Yeni Borç Kategorisi Ekle";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Yeni Kategori Oluştur</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Kategori Adı</label>
+                            <input asp-for="Name" class="form-control" placeholder="Örn: Banka Borçları" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label">Açıklama (Opsiyonel)</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Kategori hakkında kısa bilgi..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Listeye Dön
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-lg"></i> Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        // İstemci taraflı doğrulama (Client-side validation) için gerekli kütüphaneler
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

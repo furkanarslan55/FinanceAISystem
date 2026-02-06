@@ -1,22 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace FinanceAI.Application.Features.Debts;
 
-namespace FinanceAI.Application.Features.Debts
-{
-    public class DebtDto
-    {
+public record DebtDto(int Id, string Name, decimal Amount, DateTime DueDate, string? Description, string CategoryName);
 
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public decimal Amount { get; set; }
-        public DateTime DueDate { get; set; }
-
-        public int DebtCategoryId { get; set; }
-
-
-
-    }
-}

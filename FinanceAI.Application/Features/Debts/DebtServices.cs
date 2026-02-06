@@ -41,7 +41,7 @@ namespace FinanceAI.Application.Features.Debts
         public async Task<List<DebtDto>> GetAllByUserIdAsync()
         {
             
-            var entities = await _repository.GetByIdAsync(CurrentUserId);
+            var entities = await _repository.GetDebtWithCategoriesAsync(CurrentUserId);
 
             return _mapper.Map<List<DebtDto>>(entities);
 

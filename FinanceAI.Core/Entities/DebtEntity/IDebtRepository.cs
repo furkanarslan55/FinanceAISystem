@@ -10,7 +10,7 @@ namespace FinanceAI.Core.Entities.DebtEntity
     public interface IDebtRepository :IGenericRepository<Debt> 
     {
 
-
+        Task<List<Debt>> GetDebtWithCategoriesAsync(int userId);
 
     }
 }
