@@ -7,25 +7,27 @@
     <title>@ViewData["Title"] - Finans Takip</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --sidebar-width: 280px;
-            --sidebar-bg: #ffffff;
-            --primary-color: #6366f1;
-            --primary-light: #eef2ff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --bg-body: #f8fafc;
-            --border-color: #e2e8f0;
+            --sidebar-bg: #0f172a; /* Derin Gece Mavisi/Siyah */
+            --primary-color: #818cf8; /* Parlak Indigo */
+            --accent-color: #2dd4bf; /* Turkuaz Vurgu */
+            --text-main: #f1f5f9; /* Off-white Metin */
+            --text-muted: #94a3b8; /* Gri Metin */
+            --bg-body: #020617; /* Saf Siyah-Lacivert arası */
+            --card-bg: #1e293b; /* Kartlar için Antrasit */
+            --border-color: #1e293b;
+            --nav-hover: #1e293b;
         }
 
         body {
             background-color: var(--bg-body);
             color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            letter-spacing: -0.01em;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.02em;
         }
 
         /* Sidebar Styling */
@@ -38,81 +40,88 @@
             bottom: 0;
             left: 0;
             z-index: 1050;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
         .sidebar-header {
-            padding: 1.5rem;
+            padding: 2rem 1.5rem;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .brand-logo {
-            width: 32px;
-            height: 32px;
-            background: var(--primary-color);
-            border-radius: 8px;
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 12px;
             color: white;
+            box-shadow: 0 4px 15px rgba(129, 140, 248, 0.4);
         }
 
         /* Nav Links */
         .nav-pills .nav-link {
             color: var(--text-muted);
-            padding: 0.8rem 1rem;
-            margin: 0.2rem 1rem;
-            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+            margin: 0.3rem 1rem;
+            border-radius: 12px;
             font-weight: 500;
             display: flex;
             align-items: center;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
 
             .nav-pills .nav-link i {
-                width: 24px;
+                width: 28px;
                 font-size: 1.1rem;
-                margin-right: 12px;
+                margin-right: 8px;
+                transition: transform 0.2s;
             }
 
             .nav-pills .nav-link:hover {
-                background-color: var(--primary-light);
+                background-color: var(--nav-hover);
                 color: var(--primary-color);
             }
 
             .nav-pills .nav-link.active {
-                background-color: var(--primary-color);
-                color: white;
-                box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+                background-color: rgba(129, 140, 248, 0.15);
+                color: var(--primary-color);
+                border: 1px solid rgba(129, 140, 248, 0.3);
             }
 
         .submenu {
             list-style: none;
-            padding-left: 3rem;
+            padding-left: 3.2rem;
             margin-bottom: 0.5rem;
         }
 
             .submenu .nav-link {
                 padding: 0.5rem 0;
                 margin: 0;
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+                background: transparent !important;
+                border: none !important;
             }
+
+                .submenu .nav-link:hover {
+                    color: var(--text-main);
+                }
 
         /* Main Content */
         #main-content {
             margin-left: var(--sidebar-width);
             min-height: 100vh;
-            transition: all 0.3s;
         }
 
         .top-navbar {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 1.5rem;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -120,18 +129,44 @@
 
         /* Dropdown Styling */
         .dropdown-menu {
+            background-color: var(--sidebar-bg);
             border: 1px solid var(--border-color);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            border-radius: 14px;
             padding: 0.5rem;
         }
 
         .dropdown-item {
-            border-radius: 6px;
-            padding: 0.6rem 1rem;
+            color: var(--text-muted);
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
         }
 
-        /* Mobile Responsive */
+            .dropdown-item:hover {
+                background-color: var(--nav-hover);
+                color: var(--primary-color);
+            }
+
+        /* Section Labels */
+        .nav-label {
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #475569;
+            margin: 2rem 2rem 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
         @@media (max-width: 992px) {
             #sidebar {
                 transform: translateX(-100%);
@@ -145,87 +180,71 @@
                 margin-left: 0 !important;
             }
         }
-
-        /* Section Labels */
-        .nav-label {
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin: 1.5rem 2rem 0.5rem;
-            letter-spacing: 0.05em;
-        }
     </style>
 </head>
 <body>
 
     <aside id="sidebar">
         <div class="sidebar-header">
-            <div class="brand-logo"><i class="fas fa-wallet"></i></div>
-            <h5 class="mb-0 fw-bold" style="color: var(--primary-color)">FinTrack</h5>
-            <button class="btn-close d-lg-none ms-auto" id="sidebarClose"></button>
+            <div class="brand-logo"><i class="fas fa-bolt"></i></div>
+            <h5 class="mb-0 fw-bold" style="letter-spacing: 1px;">FIN<span style="color: var(--primary-color)">TRACK</span></h5>
+            <button class="btn-close btn-close-white d-lg-none ms-auto" id="sidebarClose"></button>
         </div>
 
         <div class="py-3">
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                     <a class="nav-link active" asp-controller="Home" asp-action="Index">
-                        <i class="fas fa-grid-2"></i> <span>Dashboard</span>
+                        <i class="fas fa-th-large"></i> <span>Dashboard</span>
                     </a>
                 </li>
 
-                <div class="nav-label">Yönetim</div>
+                <div class="nav-label">Finansal Yönetim</div>
 
                 <li class="nav-item">
                     <a class="nav-link" href="#gelirMenu" data-bs-toggle="collapse">
-                        <i class="fas fa-chart-line"></i> <span>Gelir İşlemleri</span>
-                        <i class="fas fa-chevron-down ms-auto fa-xs"></i>
+                        <i class="fas fa-arrow-up-right-dots"></i> <span>Gelirler</span>
+                        <i class="fas fa-chevron-down ms-auto fa-xs opacity-50"></i>
                     </a>
                     <div class="collapse" id="gelirMenu">
                         <ul class="submenu">
-                            <li><a class="nav-link" asp-controller="Income" asp-action="Index">Tüm Gelirler</a></li>
-                            <li><a class="nav-link" asp-controller="IncomeCategory" asp-action="Index">Gelir Kategorileri</a></li>
-                            <li><a class="nav-link" asp-controller="IncomeCategory" asp-action="Create">Gelir Kategorisi Oluşturma</a></li>
-                          
-                            <li><a class="nav-link" asp-controller="Income" asp-action="Create">Yeni Gelir</a></li>
+                            <li><a class="nav-link" asp-controller="Income" asp-action="Index">Özet</a></li>
+                            <li><a class="nav-link" asp-controller="IncomeCategory" asp-action="Index">Kategoriler</a></li>
+                            <li><a class="nav-link" asp-controller="Income" asp-action="Create">Ekle</a></li>
                         </ul>
                     </div>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="#borcMenu" data-bs-toggle="collapse">
-                        <i class="fas fa-receipt"></i> <span>Borçlar</span>
-                        <i class="fas fa-chevron-down ms-auto fa-xs"></i>
+                        <i class="fas fa-hand-holding-dollar"></i> <span>Borçlar</span>
+                        <i class="fas fa-chevron-down ms-auto fa-xs opacity-50"></i>
                     </a>
                     <div class="collapse" id="borcMenu">
                         <ul class="submenu">
-                            <li><a class="nav-link" asp-controller="Debt" asp-action="Index">Borç Listesi</a></li>
-                            <li><a class="nav-link" asp-controller="DebtCategory" asp-action="Index">Tüm Borç Kategorileri</a></li>
-                            <li><a class="nav-link" asp-controller="DebtCategory" asp-action="Create">Yeni Borç Kategorisi</a></li>
-                            <li><a class="nav-link" asp-controller="Debt" asp-action="Create">Yeni Borç </a></li>
-                         
+                            <li><a class="nav-link" asp-controller="Debt" asp-action="Index">Liste</a></li>
+                            <li><a class="nav-link" asp-controller="DebtCategory" asp-action="Index">Kategoriler</a></li>
                         </ul>
                     </div>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="#giderMenu" data-bs-toggle="collapse">
-                        <i class="fas fa-file-invoice-dollar"></i> <span>Giderler</span>
-                        <i class="fas fa-chevron-down ms-auto fa-xs"></i>
+                        <i class="fas fa-wallet"></i> <span>Giderler</span>
+                        <i class="fas fa-chevron-down ms-auto fa-xs opacity-50"></i>
                     </a>
                     <div class="collapse" id="giderMenu">
                         <ul class="submenu">
                             <li><a class="nav-link" asp-controller="FixedCost" asp-action="Index">Sabit Giderler</a></li>
-                            <li><a class="nav-link" asp-controller="FixedCost" asp-action="Create">Sabit Gider Oluşturma</a></li>
-                     
+                            <li><a class="nav-link" asp-controller="FixedCost" asp-action="Create">Yeni Kayıt</a></li>
                         </ul>
                     </div>
                 </li>
 
-                <div class="nav-label">Sistem</div>
-                <li class="nav-item mt-2">
+                <div class="nav-label">Zeka</div>
+                <li class="nav-item">
                     <a class="nav-link" asp-controller="Home" asp-action="Privacy">
-                        <i class="fas fa-shield-check"></i> <span>Yapay Zeka Desteği</span>
+                        <i class="fas fa-microchip" style="color: var(--accent-color)"></i> <span style="color: var(--accent-color)">AI Analiz</span>
                     </a>
                 </li>
             </ul>
@@ -235,27 +254,27 @@
     <div id="main-content">
         <nav class="navbar navbar-expand top-navbar">
             <div class="container-fluid">
-                <button class="btn btn-light d-lg-none me-3" id="sidebarToggleMobile">
+                <button class="btn btn-dark d-lg-none me-3" id="sidebarToggleMobile">
                     <i class="fas fa-bars"></i>
                 </button>
 
-                <div class="d-none d-md-block text-muted">
-                    <small>Hoş geldin, <strong>Furkan</strong></small>
+                <div class="d-none d-md-block">
+                    <span class="text-muted">Sistem Durumu:</span> <span class="badge bg-success bg-opacity-10 text-success ms-1">Aktif</span>
                 </div>
 
                 <div class="dropdown ms-auto">
                     <a class="d-flex align-items-center text-decoration-none" href="#" id="userDropdown" data-bs-toggle="dropdown">
                         <div class="text-end me-3 d-none d-sm-block">
-                            <div class="fw-bold mb-0 small">Furkan Arslan</div>
-                            <div class="text-muted small" style="font-size: 11px;">Yönetici</div>
+                            <div class="fw-bold mb-0 small text-white">Furkan Arslan</div>
+                            <div class="text-primary small fw-bold" style="font-size: 10px; text-transform: uppercase;">Yönetici</div>
                         </div>
-                        <img src="https://ui-avatars.com/api/?name=Furkan+Arslan&background=6366f1&color=fff" class="rounded-circle shadow-sm" width="40" height="40">
+                        <img src="https://ui-avatars.com/api/?name=Furkan+Arslan&background=1e293b&color=818cf8" class="rounded-circle border border-secondary" width="38" height="38">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end border-0 shadow">
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2 opacity-50"></i> Profil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-sliders me-2 opacity-50"></i> Ayarlar</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout"><i class="fas fa-power-off me-2"></i> Çıkış Yap</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i> Profil</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="fas fa-gear me-2"></i> Ayarlar</a></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout"><i class="fas fa-power-off me-2"></i> Güvenli Çıkış</a></li>
                     </ul>
                 </div>
             </div>
@@ -272,7 +291,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Mobil Sidebar Kontrolü
         const sidebar = document.getElementById('sidebar');
         const mobileBtn = document.getElementById('sidebarToggleMobile');
         const closeBtn = document.getElementById('sidebarClose');
@@ -280,9 +298,8 @@
         mobileBtn?.addEventListener('click', () => sidebar.classList.add('show'));
         closeBtn?.addEventListener('click', () => sidebar.classList.remove('show'));
 
-        // Sayfa dışına tıklandığında kapatma
         document.addEventListener('click', (e) => {
-            if (window.innerWidth < 992 && !sidebar.contains(e.target) && !mobileBtn.contains(e.target)) {
+            if (window.innerWidth < 992 && !sidebar.contains(e.target) && !mobileBtn?.contains(e.target)) {
                 sidebar.classList.remove('show');
             }
         });
