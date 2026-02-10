@@ -32,5 +32,13 @@ namespace FinanceAI.WebApi.Controllers.Incomes
             await _incomeService.CreateAsync(dto);
             return StatusCode(201); // Created
         }
+        [HttpDelete("delete-income/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _incomeService.Delete(id);
+            return NoContent();
+
+
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace UI.Controllers
         }
 
         // Silme İşlemi
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             await _categoryService.DeleteAsync(id);

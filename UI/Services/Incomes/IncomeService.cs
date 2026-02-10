@@ -17,9 +17,16 @@ namespace UI.Services.Incomes
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task Delete(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"api/Income/delete-income/{id}");
+            response.EnsureSuccessStatusCode();
+        }
+
         public async Task<List<IncomeViewDto>> GetAllByCurrentUserAsync()
         {
             return await _httpClient.GetFromJsonAsync<List<IncomeViewDto>>("api/Income");
         }
+        
     }
 }

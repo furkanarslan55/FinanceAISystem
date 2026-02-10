@@ -38,14 +38,20 @@ namespace FinanceAI.Application.Features.Debts
               await _unitOfWork.CommitAsync();
         }
 
+
+
         public  async Task DeleteAsync(int id)
         {
             var entity = await  _repository.GetByIdAsync(id);
-            if (entity == null || entity.AppUserId != CurrentUserId)
-                throw new Exception("Borç bulunamadı veya bu işlem için yetkiniz yok.");
+            if (entity == null || entity.AppUserId != CurrentUserId) { throw new Exception("Borç bulunamadı veya bu işlem için yetkiniz yok."); }
+                
             _repository.Remove(entity); //silme işlemleri asenkron olmayabilir
             await _unitOfWork.CommitAsync();
         }
+
+
+
+
 
         public async Task<List<DebtDto>> GetAllByUserIdAsync()
         {

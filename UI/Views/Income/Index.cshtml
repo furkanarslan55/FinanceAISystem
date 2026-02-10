@@ -51,12 +51,22 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
-                                        <button class="btn btn-outline-primary btn-sm" title="Düzenle">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-outline-danger btn-sm" title="Sil">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                        <!-- Düzenle formu -->
+                                        <form asp-action="Update" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="btn btn-outline-primary btn-sm" title="Düzenle">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                        </form>
+
+                                        <!-- Silme formu -->
+                                        <form asp-controller="Income" asp-action="Delete" method="post" class="d-inline"
+                                              onsubmit="return confirm('Silmek istediğinize emin misiniz?');">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Sil">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

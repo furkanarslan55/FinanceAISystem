@@ -11,6 +11,7 @@ namespace FinanceAI.Application.Features.Incomes
     {
         Task<List<IncomeDto>> GetAllByCurrentUserAsync();
         Task CreateAsync(IncomeCreateDto dto);
-        // İhtiyaca göre Delete ve Update eklenebilir
+
+        Task Delete(int id);
     }
 }

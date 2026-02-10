@@ -53,5 +53,19 @@ namespace FinanceAI.Application.Features.Incomes
             await _incomeRepository.AddAsync(income);
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task Delete(int id)
+        {
+            var entity = await _incomeRepository.GetByIdAsync(id);
+            if( id == null|| entity.AppUserId != _currentUserId )
+            {
+
+                throw new Exception("Gelir bulunamadı veya bu gelire erişim yetkiniz yok.");
+
+            }
+             _incomeRepository.Remove(entity);
+            await _unitOfWork.CommitAsync();
+
+        }
     }
 }

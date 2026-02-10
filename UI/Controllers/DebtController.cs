@@ -55,7 +55,7 @@ namespace UI.Controllers
             {
                 ModelState.AddModelError("", "Kayıt sırasında bir hata oluştu: " + ex.Message);
 
-                // BURASI DÜZELTİLDİ: Borç servisi değil, Kategori servisi çağrılmalı
+                
                 ViewBag.Categories = await _debtCategoryService.GetAllByUserIdAsync();
 
                 return View(dto);

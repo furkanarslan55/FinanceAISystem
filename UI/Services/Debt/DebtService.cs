@@ -25,9 +25,9 @@ namespace UI.Services.Debt
             return await _httpClient.GetFromJsonAsync<List<DebtViewDto>>("api/Debt");
         }
 
-        public async  Task DeleteDebt(int id)
+        public async Task DeleteDebt(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/Debt/delete-debt{id}");
+            var response = await _httpClient.DeleteAsync($"api/Debt/delete-debt/{id}");
             response.EnsureSuccessStatusCode();
         }
     }

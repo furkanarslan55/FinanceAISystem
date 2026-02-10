@@ -6,5 +6,6 @@ namespace UI.Services.Incomes
     {
         Task<List<IncomeViewDto>> GetAllByCurrentUserAsync();
         Task CreateAsync(IncomeCreateDto dto);
+        Task Delete(int id);
     }
 }

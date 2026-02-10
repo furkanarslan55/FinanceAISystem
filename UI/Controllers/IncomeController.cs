@@ -61,5 +61,19 @@ namespace UI.Controllers
                 return View(dto);
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _incomeService.Delete(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                // Silme başarısızsa hata yönetimi
+                return RedirectToAction(nameof(Index));
+            }
+        }
     }
 }
