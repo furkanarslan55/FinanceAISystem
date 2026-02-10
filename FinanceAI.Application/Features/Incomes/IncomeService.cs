@@ -1,4 +1,5 @@
-﻿using FinanceAI.Business.Features.Incomes;
+﻿using AutoMapper;
+using FinanceAI.Business.Features.Incomes;
 using FinanceAI.Core.Entities;
 using FinanceAI.Core.Entities.Incomes;
 using FinanceAI.Core.Interfaces;
@@ -14,12 +15,14 @@ namespace FinanceAI.Application.Features.Incomes
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly int _currentUserId;
         private readonly IUnitOfWork _unitOfWork;
+        IMapper _mapper;
 
-        public IncomeService(IIncomeRepository incomeRepository, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+        public IncomeService(IIncomeRepository incomeRepository, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork,IMapper mapper)
         {
             _incomeRepository = incomeRepository;
             _httpContextAccessor = httpContextAccessor;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
 
             // Giriş yapan kullanıcının ID'sini Claims üzerinden güvenli bir şekilde alıyoruz
             var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
@@ -65,6 +68,50 @@ namespace FinanceAI.Application.Features.Incomes
             }
              _incomeRepository.Remove(entity);
             await _unitOfWork.CommitAsync();
+
+        }
+
+        public async Task Update(IncomeUpdateDto dto)
+        {
+            var entity = await _incomeRepository.GetByIdAsync(dto.Id);
+            if (entity == null || entity.AppUserId != _currentUserId)
+            {
+                throw new Exception("Gelir bulunamadı veya bu gelire erişim yetkiniz yok.");
+            }
+            var originalıd = entity.Id; // ID'yi sakla
+
+            _mapper.Map(dto, entity); 
+            entity.Id = originalıd; // ID'yi geri ata
+            _incomeRepository.Update(entity);
+
+
+
+            await _unitOfWork.CommitAsync();
+
+        }
+
+        public async Task<IncomeDto> GetByIdWithCategoryAsync(int id)
+        {
+            var entity = await _incomeRepository.GetIncomeWithCategorybyIdAsync(id);
+            if( entity == null || entity.AppUserId != _currentUserId)
+            {
+                throw new Exception("Gelir bulunamadı veya bu gelire erişim yetkiniz yok.");
+            }
+            return new IncomeDto
+            (
+               entity.Id,
+                entity.Amount,
+                entity.IncomeDate,
+                entity.Description,
+                 entity.IncomeCategory.Name
+            );
+
+
+
+
+
+
+
 
         }
     }

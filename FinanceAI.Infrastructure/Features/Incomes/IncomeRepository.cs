@@ -28,5 +28,16 @@ namespace FinanceAI.Infrastructure.Features.Incomes
                 .Where(x => x.AppUserId == userId)
                 .ToListAsync();
         }
+        public async Task<Income> GetIncomeWithCategorybyIdAsync(int id)
+        {
+            //seçilen id ile geliri ve kategorisini getirir. 
+            return await _context.Incomes
+         .Include(x => x.IncomeCategory)
+         .FirstOrDefaultAsync(x => x.Id == id);
+
+
+
+        }
+
     }
 }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FinanceAI.Business.Features.Incomes;
+using FinanceAI.Core.Entities;
 using FinanceAI.Core.Entities.Incomes;
 namespace FinanceAI.Application.Features.Incomes
 {
@@ -14,6 +16,10 @@ namespace FinanceAI.Application.Features.Incomes
 
             // IncomeCategoryUpdateDto ----> IncomeCategory
             CreateMap<IncomeCategoryUpdateDto, IncomeCategory>().ForMember(dest => dest.Id,opt => opt.Ignore());
+            CreateMap<Income, IncomeDto>().ReverseMap();
+            //CreateMap<IncomeCreateDto, Income>();
+                CreateMap<IncomeUpdateDto, Income>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
         }
     }
 }

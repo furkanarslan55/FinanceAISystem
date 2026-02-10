@@ -34,10 +34,10 @@
                 <tbody>
                     @if (Model != null && Model.Any())
                     {
-                        @foreach (var item in Model.OrderByDescending(x => x.Date))
+                        @foreach (var item in Model.OrderByDescending(x => x.IncomeDate))
                         {
                             <tr>
-                                <td>@item.Date.ToShortDateString()</td>
+                                <td>@item.IncomeDate.ToShortDateString()</td>
                                 <td>
                                     <span class="badge rounded-pill bg-info text-dark">
                                         @item.CategoryName
@@ -52,7 +52,7 @@
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
                                         <!-- Düzenle formu -->
-                                        <form asp-action="Update" method="post" class="d-inline">
+                                        <form asp-controller="Income"  asp-action="UpdateForm" method="get" class="d-inline">
                                             <input type="hidden" name="id" value="@item.Id" />
                                             <button type="submit" class="btn btn-outline-primary btn-sm" title="Düzenle">
                                                 <i class="bi bi-pencil"></i>

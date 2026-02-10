@@ -1,4 +1,5 @@
 ﻿using FinanceAI.Core.Common;
+using FinanceAI.Core.Entities;
 using FinanceAI.Core.Interfaces;
 using FinanceAI.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -37,5 +38,6 @@ namespace FinanceAI.Infrastructure.Repositories
         public void Update(T entity) => _dbSet.Update(entity);
 
         public IQueryable<T> Where(Expression<Func<T, bool>> expression) => _dbSet.Where(expression);
+
     }
 }

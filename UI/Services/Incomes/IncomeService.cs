@@ -28,9 +28,15 @@ namespace UI.Services.Incomes
             return await _httpClient.GetFromJsonAsync<List<IncomeViewDto>>("api/Income");
         }
 
-        public async Task Update(IncomeCategoryUpdateDto dto)
+        public Task<IncomeViewDto> GetByIdAsync(int id)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/Income/update-income", dto);
+            return _httpClient.GetFromJsonAsync<IncomeViewDto>($"api/Income/get-income-by-id/{id}");
+
+        }
+
+        public async Task Update(IncomeUpdateDto dto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/Income/", dto);
             response.EnsureSuccessStatusCode();
         }
     }

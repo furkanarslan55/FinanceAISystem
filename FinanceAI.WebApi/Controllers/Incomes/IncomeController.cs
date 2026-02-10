@@ -40,5 +40,20 @@ namespace FinanceAI.WebApi.Controllers.Incomes
 
 
         }
+        [HttpPut]
+        public async Task<IActionResult> Update(IncomeUpdateDto dto)
+        {
+            await _incomeService.Update(dto);
+            return NoContent();
+        }
+
+        [HttpGet("get-income-by-id/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _incomeService.GetByIdWithCategoryAsync(id);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
     }
 }

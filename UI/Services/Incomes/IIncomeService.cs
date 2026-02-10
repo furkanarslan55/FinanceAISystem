@@ -8,6 +8,7 @@ namespace UI.Services.Incomes
         Task CreateAsync(IncomeCreateDto dto);
         Task Delete(int id);
 
-        Task Update(IncomeCategoryUpdateDto dto);
+        Task Update(IncomeUpdateDto dto);
+        Task <IncomeViewDto> GetByIdAsync(int id);
     }
 }

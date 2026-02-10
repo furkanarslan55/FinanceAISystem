@@ -1,3 +1,3 @@
 ﻿namespace FinanceAI.Business.Features.Incomes;
 
-public record IncomeDto(int Id, decimal Amount, DateTime Date, string? Description, string CategoryName);
+public record IncomeDto(int Id, decimal Amount, DateTime IncomeDate, string? Description, string CategoryName);

@@ -75,5 +75,38 @@ namespace UI.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> UpdateForm(int id)
+        {
+            var income = await _incomeService.GetByIdAsync(id);
+            if (income == null)
+            {
+                return NotFound();
+            }
+            var categories = await _categoryService.GetAllAsync();
+            ViewBag.Categories = categories;
+
+            return View(income);
+
+
+        }
+        public async Task<IActionResult> Update(IncomeUpdateDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("UpdateForm", dto);
+            }
+            try
+            {
+                await _incomeService.Update(dto);
+                TempData["SuccessMessage"] = "Gelir başarıyla güncellendi.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("", "Gelir güncellenirken bir hata oluştu. Lütfen tekrar deneyin.");
+                return View("UpdateForm", dto);
+            }
+        }
     }
 }

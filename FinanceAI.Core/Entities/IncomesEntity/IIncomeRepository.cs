@@ -14,5 +14,6 @@ namespace FinanceAI.Infrastructure.Features.Incomes
         // İleride sadece gelirlere özel (örneğin kategoriyle birlikte getir gibi) 
         // metodlar buraya eklenecek.
         Task<List<Income>> GetIncomesWithCategoriesAsync(int userId);
+        Task<Income> GetIncomeWithCategorybyIdAsync(int id);
     }
 }
