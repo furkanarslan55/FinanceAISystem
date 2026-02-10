@@ -178,13 +178,15 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="#gelirMenu" data-bs-toggle="collapse">
-                        <i class="fas fa-chart-line"></i> <span>Gelirler</span>
+                        <i class="fas fa-chart-line"></i> <span>Gelir İşlemleri</span>
                         <i class="fas fa-chevron-down ms-auto fa-xs"></i>
                     </a>
                     <div class="collapse" id="gelirMenu">
                         <ul class="submenu">
                             <li><a class="nav-link" asp-controller="Income" asp-action="Index">Tüm Gelirler</a></li>
-                            <li><a class="nav-link" asp-controller="IncomeCategory" asp-action="Create">Kategoriler</a></li>
+                            <li><a class="nav-link" asp-controller="IncomeCategory" asp-action="Index">Gelir Kategorileri</a></li>
+                            <li><a class="nav-link" asp-controller="IncomeCategory" asp-action="Create">Gelir Kategorisi Oluşturma</a></li>
+                          
                             <li><a class="nav-link" asp-controller="Income" asp-action="Create">Yeni Gelir</a></li>
                         </ul>
                     </div>
@@ -197,10 +199,11 @@
                     </a>
                     <div class="collapse" id="borcMenu">
                         <ul class="submenu">
+                            <li><a class="nav-link" asp-controller="Debt" asp-action="Index">Borç Listesi</a></li>
                             <li><a class="nav-link" asp-controller="DebtCategory" asp-action="Index">Tüm Borç Kategorileri</a></li>
                             <li><a class="nav-link" asp-controller="DebtCategory" asp-action="Create">Yeni Borç Kategorisi</a></li>
                             <li><a class="nav-link" asp-controller="Debt" asp-action="Create">Yeni Borç </a></li>
-                            <li><a class="nav-link" asp-controller="Debt" asp-action="Index">Borç Listesi</a></li>
+                         
                         </ul>
                     </div>
                 </li>
@@ -213,7 +216,8 @@
                     <div class="collapse" id="giderMenu">
                         <ul class="submenu">
                             <li><a class="nav-link" asp-controller="FixedCost" asp-action="Index">Sabit Giderler</a></li>
-                            <li><a class="nav-link" asp-controller="ExpenseCategory" asp-action="Index">Kategoriler</a></li>
+                            <li><a class="nav-link" asp-controller="FixedCost" asp-action="Create">Sabit Gider Oluşturma</a></li>
+                     
                         </ul>
                     </div>
                 </li>
@@ -221,7 +225,7 @@
                 <div class="nav-label">Sistem</div>
                 <li class="nav-item mt-2">
                     <a class="nav-link" asp-controller="Home" asp-action="Privacy">
-                        <i class="fas fa-shield-check"></i> <span>Güvenlik</span>
+                        <i class="fas fa-shield-check"></i> <span>Yapay Zeka Desteği</span>
                     </a>
                 </li>
             </ul>

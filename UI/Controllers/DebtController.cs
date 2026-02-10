@@ -36,7 +36,7 @@ namespace UI.Controllers
 
         // Yeni Borç Ekleme İşlemi
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       
         public async Task<IActionResult> Create(DebtCreateDto dto)
         {
             if (!ModelState.IsValid)
@@ -48,7 +48,7 @@ namespace UI.Controllers
             try
             {
                 await _debtService.CreateDebt(dto);
-                TempData["SuccessMessage"] = "Borç başarıyla eklendi."; // "Gelir" yazmışsın, "Borç" olarak düzeltebilirsin :)
+                TempData["SuccessMessage"] = "Borç başarıyla eklendi."; 
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)

@@ -27,7 +27,7 @@ namespace UI.Services.Debt
 
         public async  Task DeleteDebt(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/Debt/{id}");
+            var response = await _httpClient.DeleteAsync($"api/Debt/delete-debt{id}");
             response.EnsureSuccessStatusCode();
         }
     }

@@ -7,7 +7,7 @@ namespace FinanceAI.Infrastructure.Features.Debts
 {
     public class DebtRepository :GenericRepository<Debt>, IDebtRepository
     {
-        private readonly DbContext _context;
+        private readonly AppDbContext _context;
         public DebtRepository(AppDbContext context) : base(context)
         {
 
@@ -16,11 +16,10 @@ namespace FinanceAI.Infrastructure.Features.Debts
 
         public async Task<List<Debt>> GetDebtWithCategoriesAsync(int userId)
         {
-             
-            return await _context.Set<Debt>()
-                .Include(d => d.DebtCategory)
-                .Where(d => d.AppUserId == userId)
-                .ToListAsync();
+            return await _context.Debts
+                  .Include(x => x.DebtCategory)
+                  .Where(x => x.AppUserId == userId)
+                  .ToListAsync();
         }
     }
 }
