@@ -26,7 +26,7 @@ namespace UI.Services.Incomes
 
         public async Task UpdateAsync(IncomeCategoryUpdateDto dto)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/IncomeCategories", dto);
+            var response = await _httpClient.PutAsJsonAsync("api/IncomeCategories/update-incomecategory", dto);
             response.EnsureSuccessStatusCode();
         }
 
@@ -34,6 +34,11 @@ namespace UI.Services.Incomes
         {
             var response = await _httpClient.DeleteAsync($"api/IncomeCategories/{id}");
             response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<IncomeCategoryViewDto> GetByIdAsync(int id)
+        {
+           return await _httpClient.GetFromJsonAsync<IncomeCategoryViewDto>($"api/IncomeCategories/get-id/{id}");
         }
     }
 }

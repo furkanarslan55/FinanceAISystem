@@ -13,7 +13,7 @@ namespace FinanceAI.Application.Features.Incomes
             CreateMap<IncomeCategoryCreateDto, IncomeCategory>();
 
             // IncomeCategoryUpdateDto ----> IncomeCategory
-            CreateMap<IncomeCategoryUpdateDto, IncomeCategory>();
+            CreateMap<IncomeCategoryUpdateDto, IncomeCategory>().ForMember(dest => dest.Id,opt => opt.Ignore());
         }
     }
 }

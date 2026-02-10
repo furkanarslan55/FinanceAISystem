@@ -46,5 +46,21 @@ namespace UI.Controllers
             await _categoryService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+       [HttpGet]
+        public async Task<IActionResult> UpdateForm(int id)
+        {
+         
+            var entity = await _categoryService.GetByIdAsync(id);
+            return View(entity);
+
+            
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(IncomeCategoryUpdateDto dto)
+        {
+            if (!ModelState.IsValid) return View(dto);
+            await _categoryService.UpdateAsync(dto);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

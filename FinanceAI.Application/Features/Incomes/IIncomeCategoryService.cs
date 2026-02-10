@@ -12,5 +12,6 @@ namespace FinanceAI.Application.Features.Incomes
         Task CreateAsync(IncomeCategoryCreateDto dto);
         Task UpdateAsync(IncomeCategoryUpdateDto dto);
         Task DeleteAsync(int id);
+        Task<IncomeCategoryViewDto> GetByIdAsync(int id);
     }
 }

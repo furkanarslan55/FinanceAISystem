@@ -18,6 +18,15 @@ namespace FinanceAI.WebApi.Controllers.Incomes
             _service = service;
         }
 
+        [HttpGet("get-id/{id}")]
+        public async Task<IActionResult> GetByIdAsync(int id)
+        {
+            // Servis içindeki CurrentUserId sayesinde otomatik olarak sadece o kullanıcının verileri gelir.
+            var result = await _service.GetByIdAsync(id);
+            return Ok(result);
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -29,15 +38,15 @@ namespace FinanceAI.WebApi.Controllers.Incomes
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] IncomeCategoryCreateDto dto)
         {
-            // UserId parametresi kalktı, servis bunu token'dan hallediyor.
+            
             await _service.CreateAsync(dto);
             return StatusCode(201);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(IncomeCategoryUpdateDto dto)
+        [HttpPut("update-incomecategory")]
+        public async Task<IActionResult> Update([FromBody] IncomeCategoryUpdateDto dto)
         {
-            // Global Exception Handler sayesinde try-catch'e gerek yok.
+            
             await _service.UpdateAsync(dto);
             return NoContent();
         }

@@ -56,10 +56,10 @@ namespace FinanceAI.Application.Features.Incomes
             // GÜVENLİK: Kategori yoksa veya başkasına aitse GlobalHandler hatayı yakalar
             if (category == null || category.AppUserId != CurrentUserId)
                 throw new Exception("Kategori bulunamadı veya bu işlem için yetkiniz yok.");
-
+            var originalId = category.Id; // ID'nin değişmediğinden emin olmak için orijinal ID'yi saklıyoruz
             // DTO'daki verileri mevcut entity üzerine haritala
             _mapper.Map(dto, category);
-
+            category.Id = originalId; // ID'nin değişmediğinden emin oluyorum .Mpping tarafında da önlem alındı.
             _repository.Update(category);
             await _unitOfWork.CommitAsync();
         }
@@ -73,6 +73,15 @@ namespace FinanceAI.Application.Features.Incomes
 
             _repository.Remove(category);
             await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<IncomeCategoryViewDto> GetByIdAsync(int id)
+        {
+            var category = await _repository.GetByIdAsync(id);
+            if (category == null || category.AppUserId != CurrentUserId)
+                throw new Exception("Kategori bulunamadı veya bu işlem için yetkiniz yok.");
+
+            return _mapper.Map<IncomeCategoryViewDto>(category);
         }
     }
 }

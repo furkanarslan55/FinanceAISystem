@@ -18,6 +18,11 @@
                 <td>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Sil</a>
                 </td>
+                <td>
+                    <a asp-action="UpdateForm" asp-route-id="@item.Id" class="btn btn-sm btn-warning">
+                        <i class="fas fa-edit"></i> Düzenle
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
