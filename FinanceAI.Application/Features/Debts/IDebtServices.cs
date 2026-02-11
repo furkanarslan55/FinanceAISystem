@@ -15,7 +15,7 @@ namespace FinanceAI.Application.Features.Debts
 
         Task DeleteAsync(int id);
 
-
+        Task <DebtDto> GetDebtWithCategoryByIdAsync(int debtId);
 
 
 

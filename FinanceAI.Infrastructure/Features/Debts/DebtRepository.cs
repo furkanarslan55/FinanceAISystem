@@ -21,5 +21,12 @@ namespace FinanceAI.Infrastructure.Features.Debts
                   .Where(x => x.AppUserId == userId)
                   .ToListAsync();
         }
+
+        public async Task<Debt> GetDebtWithCategoryByIdAsync(int debtId)
+        {
+            return await _context.Debts
+                  .Include(x => x.DebtCategory)
+                  .FirstOrDefaultAsync(x => x.Id == debtId);
+        }
     }
 }

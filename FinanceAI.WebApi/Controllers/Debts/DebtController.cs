@@ -32,8 +32,21 @@ namespace FinanceAI.WebApi.Controllers.Debts
             await _debtServices.CreateAsync(dto);
             return Ok();
 
+         
+
 
         }
+        [HttpGet("get-debt-category/{id}")]
+        public async Task<IActionResult> GetDebtWithCategoryById(int id)
+        {
+            var debt = await _debtServices.GetDebtWithCategoryByIdAsync(id);
+            if (debt == null) { return NotFound(); }
+            return Ok(debt);
+        }
+
+
+
+
         [HttpPut("update-debt")]
         public async Task<IActionResult> Update(DebtUpdateDto dto)
         {

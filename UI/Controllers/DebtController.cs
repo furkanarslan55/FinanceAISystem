@@ -10,13 +10,13 @@ namespace UI.Controllers
         private readonly IDebtCategoryService _debtCategoryService;
 
 
-        public DebtController(IDebtService debtService,IDebtCategoryService debtCategoryService)
+        public DebtController(IDebtService debtService, IDebtCategoryService debtCategoryService)
         {
             _debtService = debtService;
             _debtCategoryService = debtCategoryService;
         }
 
-       
+
         public async Task<IActionResult> Index()
         {
             var debts = await _debtService.DebtAllWithCategories();
@@ -36,7 +36,7 @@ namespace UI.Controllers
 
         // Yeni Borç Ekleme İşlemi
         [HttpPost]
-       
+
         public async Task<IActionResult> Create(DebtCreateDto dto)
         {
             if (!ModelState.IsValid)
@@ -48,14 +48,14 @@ namespace UI.Controllers
             try
             {
                 await _debtService.CreateDebt(dto);
-                TempData["SuccessMessage"] = "Borç başarıyla eklendi."; 
+                TempData["SuccessMessage"] = "Borç başarıyla eklendi.";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Kayıt sırasında bir hata oluştu: " + ex.Message);
 
-                
+
                 ViewBag.Categories = await _debtCategoryService.GetAllByUserIdAsync();
 
                 return View(dto);
@@ -77,5 +77,19 @@ namespace UI.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
-    }
-}
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateForm(int id)
+        {
+            var debt = await _debtService.GetDebtWithCategoryById(id);
+            if (debt == null)
+            {
+                return NotFound();
+            }
+            var categories = await _debtCategoryService.GetAllByUserIdAsync();
+            ViewBag.Categories = categories;
+
+            return View(debt);
+
+        }
+    } }

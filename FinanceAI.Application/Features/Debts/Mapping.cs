@@ -22,7 +22,7 @@ namespace FinanceAI.Application.Features.Debts
 
             CreateMap<DebtUpdateDto, Debt>();
 
-            CreateMap<Debt, DebtDto>();
+            CreateMap<Debt, DebtDto>().ReverseMap();
 
 
 

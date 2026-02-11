@@ -9,6 +9,7 @@ namespace UI.Services.Debt
         Task CreateDebt(DebtCreateDto dto);
         Task DeleteDebt(int id);
 
-
+        Task <DebtViewDto> GetDebtWithCategoryById(int id);
+       
     }
 }

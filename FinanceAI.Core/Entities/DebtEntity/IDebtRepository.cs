@@ -11,6 +11,7 @@ namespace FinanceAI.Core.Entities.DebtEntity
     {
 
         Task<List<Debt>> GetDebtWithCategoriesAsync(int userId);
+        Task <Debt>  GetDebtWithCategoryByIdAsync(int debtId);
 
     }
 }

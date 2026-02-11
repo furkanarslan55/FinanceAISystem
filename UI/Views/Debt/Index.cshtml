@@ -48,6 +48,13 @@
                                 </td>
                                 <td class="text-end pe-4">
                                     <div class="btn-group">
+                                        <form asp-controller="Debt" asp-action="UpdateForm" method="get" class="d-inline">
+                                              
+                                            <input type="hidden" name="id" value="@debt.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Güncelle">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                         <form asp-controller="Debt" asp-action="Delete" method="post" class="d-inline"
                                               onsubmit="return confirm('Silmek istediğinize emin misiniz?');">
                                             <input type="hidden" name="id" value="@debt.Id" />

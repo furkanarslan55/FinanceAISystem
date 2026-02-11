@@ -69,6 +69,20 @@ namespace FinanceAI.Application.Features.Debts
 
         }
 
+        public async  Task<DebtDto> GetDebtWithCategoryByIdAsync(int debtId)
+        {
+           var entity = await _repository.GetDebtWithCategoryByIdAsync(debtId);
+            if (entity == null || entity.AppUserId != CurrentUserId)
+                throw new Exception("Borç bulunamadı veya bu işlem için yetkiniz yok.");
+            return new DebtDto(
+                entity.Id,
+                entity.Name,
+                entity.Amount,
+                entity.DueDate,
+                entity.Description,
+                entity.DebtCategory.Name);
+        }
+
         public async Task UpdateAsync(DebtUpdateDto dto)
         {
             var entity = await  _repository.GetByIdAsync(dto.Id);

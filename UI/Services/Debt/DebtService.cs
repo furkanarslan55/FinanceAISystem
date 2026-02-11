@@ -30,5 +30,11 @@ namespace UI.Services.Debt
             var response = await _httpClient.DeleteAsync($"api/Debt/delete-debt/{id}");
             response.EnsureSuccessStatusCode();
         }
+
+        public  async Task<DebtViewDto> GetDebtWithCategoryById(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<DebtViewDto>($"api/Debt/get-debt-category/{id}");
+       
+        }
     }
 }
