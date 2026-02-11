@@ -15,8 +15,8 @@ namespace FinanceAI.Application.Features.Debts
         public Mapping()
         {
             CreateMap<DebtCategoryCreateDto, DebtCategory>();
-
             CreateMap<DebtCategory, DebtCategoryDto>();
+
 
             CreateMap<DebtCreateDto, Debt>();
 
@@ -24,6 +24,9 @@ namespace FinanceAI.Application.Features.Debts
 
             CreateMap<Debt, DebtDto>().ReverseMap();
 
+            CreateMap<DebtCategoryUpdateDto, DebtCategoryDto>().ReverseMap();
+
+            CreateMap<DebtCategoryUpdateDto, DebtCategory>().ReverseMap();
 
 
 

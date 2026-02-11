@@ -50,8 +50,8 @@ namespace UI.Controllers
             var updateDto = new DebtCategoryUpdateDto
             {
                 Id = category.Id,
-                Name = category.Name
-                // DTO'daki diğer alanları buraya eşleyebilirsin
+                Name = category.Name,
+                Description = category.Description
             };
 
             return View(updateDto);
@@ -59,7 +59,7 @@ namespace UI.Controllers
 
         // Güncelleme (Post)
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       
         public async Task<IActionResult> Update(DebtCategoryUpdateDto dto)
         {
             if (!ModelState.IsValid) return View(dto);

@@ -10,6 +10,8 @@ namespace UI.Services.Debt
         Task DeleteDebt(int id);
 
         Task <DebtViewDto> GetDebtWithCategoryById(int id);
-       
+
+        Task UpdateDebt(DebtUpdateDto dto);
+
     }
 }

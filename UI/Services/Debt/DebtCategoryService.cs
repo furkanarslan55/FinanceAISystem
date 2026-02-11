@@ -31,7 +31,7 @@ namespace UI.Services.Debt
 
         public async Task UpdateAsync(DebtCategoryUpdateDto dto)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/DebtCategory", dto);
+            var response = await _httpClient.PutAsJsonAsync("api/DebtCategory/update", dto);
             response.EnsureSuccessStatusCode();
         }
     }

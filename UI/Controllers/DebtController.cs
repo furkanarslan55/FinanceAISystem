@@ -92,4 +92,27 @@ namespace UI.Controllers
             return View(debt);
 
         }
-    } }
+        [HttpPost]
+        public async Task<IActionResult> Update(DebtUpdateDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = await _debtCategoryService.GetAllByUserIdAsync();
+                return View("UpdateForm", dto);
+            }
+            try
+            {
+                await _debtService.UpdateDebt(dto);
+                TempData["SuccessMessage"] = "Borç başarıyla güncellendi.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Güncelleme sırasında bir hata oluştu: " + ex.Message);
+                ViewBag.Categories = await _debtCategoryService.GetAllByUserIdAsync();
+                return View("UpdateForm", dto);
+            }
+        }
+
+    }
+}

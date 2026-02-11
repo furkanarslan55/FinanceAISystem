@@ -88,8 +88,9 @@ namespace FinanceAI.Application.Features.Debts
             var entity = await  _repository.GetByIdAsync(dto.Id);
             if (entity == null || entity.AppUserId != CurrentUserId)
                 throw new Exception("Borç bulunamadı veya bu işlem için yetkiniz yok.");
-
+            var originalıd = entity.Id; // ID'yi sakla
             _mapper.Map(dto, entity);
+            entity.Id = originalıd; // ID'yi geri ata
             _repository.Update(entity); 
             await _unitOfWork.CommitAsync();
         }

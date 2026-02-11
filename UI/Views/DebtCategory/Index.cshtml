@@ -42,8 +42,8 @@
                                         </button>
                                     </div>
 
-                                    @* Silme işlemi için gizli form *@
-                                    <form id="delete-form-@item.Id" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:none;"></form>
+                                 
+                                    <form id="delete-form-@item.Id" asp-controller="DebtCategory" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:none;"></form>
                                 </td>
                             </tr>
                         }

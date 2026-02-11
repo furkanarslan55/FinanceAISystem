@@ -37,6 +37,10 @@ namespace FinanceAI.Application.Features.Debts
             await _unitOfWork.CommitAsync();
         }
 
+
+
+
+
         public async Task DeleteAsync(int id)
         {
             var category = await _repository.GetByIdAsync(id);
@@ -47,6 +51,11 @@ namespace FinanceAI.Application.Features.Debts
             _repository.Remove(category);
             await _unitOfWork.CommitAsync();
         }
+
+
+
+
+
 
         public  async Task<List<DebtCategoryDto>> GetAllByUserIdAsync()
         {

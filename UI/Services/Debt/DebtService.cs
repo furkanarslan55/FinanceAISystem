@@ -36,5 +36,11 @@ namespace UI.Services.Debt
             return await _httpClient.GetFromJsonAsync<DebtViewDto>($"api/Debt/get-debt-category/{id}");
        
         }
+
+        public async Task UpdateDebt(DebtUpdateDto dto)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/Debt/update-debt", dto);
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
