@@ -1,4 +1,4 @@
-﻿@model UI.Models.Auth.UserLoginDto
+﻿@model UI.Models.Auth.UserRegisterDto
 @{
     Layout = null;
 }
@@ -153,12 +153,28 @@
 
     <div class="login-container">
         <div class="header">
-            <h1>Giriş Yap</h1>
+            <h1>Kaydol</h1>
         </div>
 
         <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-        <form asp-action="Login" method="post">
+        <form  asp-controller="Account" asp-action="Register" method="post">
+            <div class="form-group">
+                <label class="form-label" asp-for="FirstName">Adınız</label>
+                <div class="input-wrapper">
+                    <input asp-for="FirstName" class="form-control" placeholder="Adınız" />
+                   
+                </div>
+                <span asp-validation-for="FirstName" class="error-text"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-label" asp-for="LastName">Soy Ad</label>
+                <div class="input-wrapper">
+                    <input asp-for="LastName" class="form-control" placeholder="Soy Adınız" />
+                    
+                </div>
+                <span asp-validation-for="LastName" class="error-text"></span>
+            </div>
             <div class="form-group">
                 <label class="form-label" asp-for="Email">E-posta</label>
                 <div class="input-wrapper">
@@ -176,13 +192,19 @@
                 </div>
                 <span asp-validation-for="Password" class="error-text"></span>
             </div>
+            <div class="form-group">
+                <label class="form-label" asp-for="MonthlyIncome">Aylık Gelir</label>
+                <div class="input-wrapper">
+                    <input asp-for="MonthlyIncome" type="number" class="form-control" placeholder="Aylık Geliriniz" />
+                   
+                </div>
+                <span asp-validation-for="MonthlyIncome" class="error-text"></span>
+            </div>
 
-            <button type="submit" class="btn-submit">Giriş Yap</button>
+            <button type="submit" class="btn-submit">Hemen Kaydol</button>
         </form>
 
-        <div class="footer">
-            Hesabınız yok mu? <a href="/Account/Register/">Kaydol</a>
-        </div>
+       
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

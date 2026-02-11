@@ -1,10 +1,9 @@
-﻿using FinanceAI.Application.Features.Debts;
+﻿using FinanceAI.Application.Features.AppUser;
+using FinanceAI.Application.Features.Debts;
 using FinanceAI.Application.Features.FixedCost;
 using FinanceAI.Application.Features.Incomes;
 using FinanceAI.Application.Features.VariableCost.VariableCostService;
 using FinanceAI.Application.Features.VariableCosts.VariableCostCategoryService;
-using FinanceAI.Application.Interfaces;
-using FinanceAI.Application.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

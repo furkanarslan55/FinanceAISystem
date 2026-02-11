@@ -1,4 +1,4 @@
-﻿using FinanceAI.Application.Dtos.AppUser;
+﻿using FinanceAI.Application.Features.AppUser;
 using FinanceAI.Core.Entities.AppUserEntity;
 using System;
 using System.Collections.Generic;

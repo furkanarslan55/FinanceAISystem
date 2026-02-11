@@ -45,5 +45,22 @@ namespace UI.Services.Auth
         {
             _httpContextAccessor.HttpContext.Response.Cookies.Delete("JwtToken");
         }
+
+        public async Task<UserDto> RegisterAsync(UserRegisterDto registerModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Users/register", registerModel);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                
+                var error = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Register failed: {error}");
+            }
+
+            var createdUser = await response.Content.ReadFromJsonAsync<UserDto>();
+
+            return createdUser;
+
+        }
     }
 }

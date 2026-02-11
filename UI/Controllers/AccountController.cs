@@ -47,5 +47,29 @@ namespace UI.Controllers
             await _authService.LogoutAsync();
             return RedirectToAction("Login");
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(UserRegisterDto registerModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(registerModel);
+            }
+            var result = await _authService.RegisterAsync(registerModel);
+            if (result != null)
+            {
+                // Kayıt başarılıysa giriş sayfasına yönlendir
+                return RedirectToAction("Login");
+            }
+            // Kayıt başarısızsa hata mesajı ekle
+            ModelState.AddModelError("", "Kayıt sırasında bir hata oluştu.");
+            return View(registerModel);
+        }
     }
 }

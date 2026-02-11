@@ -1,14 +1,7 @@
-﻿using FinanceAI.Application.Dtos.AppUser;
-using FinanceAI.Application.Interfaces;
-using FinanceAI.Core.Entities.AppUserEntity;
+﻿using FinanceAI.Application.Interfaces;
 using FinanceAI.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FinanceAI.Application.Services
+namespace FinanceAI.Application.Features.AppUser
 {
     public class UserService : IUserService
     {
@@ -44,7 +37,7 @@ namespace FinanceAI.Application.Services
         public async Task<UserDto> RegisterAsync(UserRegisterDto dto)
         {
             var hashedPassword = _passwordHasher.HashPassword(dto.Password);
-            var user = new AppUser
+            var user = new Core.Entities.AppUserEntity.AppUser
             {
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,

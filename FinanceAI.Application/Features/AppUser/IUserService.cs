@@ -1,11 +1,10 @@
-﻿using FinanceAI.Application.Dtos.AppUser;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceAI.Application.Interfaces
+namespace FinanceAI.Application.Features.AppUser
 {
     public interface IUserService
     {

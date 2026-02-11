@@ -12,5 +12,8 @@ namespace UI.Services.Auth
 
         // Çıkış işlemi ve token temizliği
         Task LogoutAsync();
+
+
+        Task<UserDto> RegisterAsync(UserRegisterDto registerModel);
     }
 }

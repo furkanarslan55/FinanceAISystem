@@ -1,5 +1,4 @@
-﻿using FinanceAI.Application.Dtos.AppUser;
-using FinanceAI.Application.Interfaces;
+﻿using FinanceAI.Application.Features.AppUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

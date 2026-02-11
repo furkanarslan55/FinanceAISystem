@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceAI.Application.Dtos.AppUser
+namespace FinanceAI.Application.Features.AppUser
 {
     public class UserDto
     {

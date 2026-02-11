@@ -4,14 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceAI.Application.Dtos.AppUser
+namespace FinanceAI.Application.Features.AppUser
 {
-    public class UserRegisterDto
+    public class UserLoginDto
     {
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public decimal MonthlyIncome { get; set; }
     }
 }
