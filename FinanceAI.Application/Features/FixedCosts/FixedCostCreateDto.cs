@@ -11,9 +11,9 @@ namespace FinanceAI.Application.Features.FixedCosts
 
         public string Name { get; set; }
         public decimal Amount { get; set; }
-        public string Description { get; set; }
+        
 
-        public int FixedCategoryId { get; set; }
+        public int FixedCostCategoryId { get; set; }
 
 
     }

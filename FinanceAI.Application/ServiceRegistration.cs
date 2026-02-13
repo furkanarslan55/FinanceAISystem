@@ -18,7 +18,7 @@ namespace FinanceAI.Application
             services.AddScoped<IUserService, UserService>();
           services.AddScoped<IIncomeService, IncomeService>();
             services.AddScoped<IIncomeCategoryService, IncomeCategoryService>();
-            //services.AddScoped<IFixedCostService, FixedCostService>();
+            services.AddScoped<IFixedCostService, FixedCostService>();
             services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>();
             services.AddScoped<IDebtCategoryServices, DebtCategoryServices>();
            services.AddScoped<IDebtServices, DebtServices>();

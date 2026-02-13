@@ -11,7 +11,7 @@ namespace FinanceAI.Application.Features.FixedCosts
     {
         Task<List<FixedCostCategoryViewDto>> GetAllByUserIdAsync();
         Task CreateAsync(FixedCostCategoryCreateDto dto);
-        Task UpdateAsync(FixedCostCategoryUpdateDto dto);
+        Task UpdateAsync( FixedCostCategoryUpdateDto dto);
         Task DeleteAsync(int id);
 
        

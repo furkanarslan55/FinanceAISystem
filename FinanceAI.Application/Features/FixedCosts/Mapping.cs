@@ -12,6 +12,7 @@ namespace FinanceAI.Application.Features.FixedCosts
     {
         public Mapping()
         {
+            CreateMap<FixedCostCreateDto, FixedCost>();
 
             CreateMap<FixedCostCategory, FixedCostCategoryViewDto>().ReverseMap();
 
