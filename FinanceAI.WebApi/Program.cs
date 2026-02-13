@@ -23,7 +23,11 @@ builder.Services.AddCors(options =>
               .AllowCredentials(); // ⭐ Cookie için gerekli
     });
 });
-
+builder.Services.AddHttpClient("CurrencyApi", client =>
+{
+    client.BaseAddress = new Uri("https://api.exchangerate-api.com/v4/latest/"); // Örnek API URL'si
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
 builder.Services.AddControllers();
 
 // ==========================================

@@ -4,6 +4,7 @@ using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Entities.FixedCostsEntity;
 using FinanceAI.Core.Entities.Incomes;
 using FinanceAI.Core.Entities.VariableCostEntity;
+using FinanceAI.Core.GenericInterfaces;
 using FinanceAI.Core.Interfaces;
 using FinanceAI.Infrastructure.Context;
 using FinanceAI.Infrastructure.Features.Debts;
@@ -43,6 +44,7 @@ namespace FinanceAI.Infrastructure
             services.AddScoped<IFixedCostCategoryRepository, FixedCostCategoryRepository>();
             services.AddScoped<IVariableCostRepository, VariableCostRepository>();
             services.AddScoped<IVariableCostCategoryRepository, VariableCostCategoryRepository>();
+            services.AddScoped<ICurrencyExchange, CurrencyExchange>();
 
             services.AddScoped<IDebtCategoryRepository, DebtCategoryRepository>();
             services.AddScoped<IDebtRepository, DebtRepository>();

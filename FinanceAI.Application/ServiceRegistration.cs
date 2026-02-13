@@ -1,4 +1,5 @@
 ﻿using FinanceAI.Application.Features.AppUser;
+using FinanceAI.Application.Features.Dashboard;
 using FinanceAI.Application.Features.Debts;
 using FinanceAI.Application.Features.FixedCosts;
 using FinanceAI.Application.Features.Incomes;
@@ -24,6 +25,7 @@ namespace FinanceAI.Application
            services.AddScoped<IDebtServices, DebtServices>();
             services.AddScoped<IVariableCostService, VariableCostService>();
             services.AddScoped<IVariableCostCategoryService, VariableCostCategoryService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddFluentValidationAutoValidation();
         }

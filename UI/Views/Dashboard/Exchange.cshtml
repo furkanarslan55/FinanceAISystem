@@ -1,0 +1,190 @@
+﻿@{
+    ViewData["Title"] = "Finans Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Modern Dashboard Kart Tasarımı */
+    .currency-container {
+        padding: 20px 0;
+    }
+
+    .currency-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .currency-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+    /* İkon Alanları */
+    .icon-wrapper {
+        width: 55px;
+        height: 55px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-right: 15px;
+    }
+
+    .bg-usd-light {
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+    }
+
+    .bg-eur-light {
+        background: rgba(0, 123, 255, 0.1);
+        color: #007bff;
+    }
+
+    /* Yazı Tipleri */
+    .label-text {
+        color: #8e9aaf;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+    }
+
+    .price-text {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #1a1c24;
+        margin: 0;
+    }
+
+    .update-time {
+        font-size: 0.7rem;
+        color: #adb5bd;
+        margin-top: 10px;
+    }
+
+    /* Güncelleniyor Efekti */
+    .pulse-refresh {
+        animation: pulse-opacity 0.8s ease-in-out;
+    }
+
+    @@keyframes pulse-opacity {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.4;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+</style>
+
+<div class="container currency-container">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card currency-card p-4">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="icon-wrapper bg-usd-light">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div>
+                        <div class="label-text">Amerikan Doları</div>
+                        <h2 class="price-text" id="usd-price">
+                            <span class="spinner-border spinner-border-sm"></span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="update-time">
+                    <i class="far fa-clock"></i> Son Güncelleme: <span id="usd-time">--:--</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card currency-card p-4">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="icon-wrapper bg-eur-light">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <div>
+                        <div class="label-text">Euro</div>
+                        <h2 class="price-text" id="eur-price">
+                            <span class="spinner-border spinner-border-sm"></span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="update-time">
+                    <i class="far fa-clock"></i> Son Güncelleme: <span id="eur-time">--:--</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        function getExchangeRates() {
+            // Görsel efekt: Yazıları hafifçe yanıp söndür
+            $('.price-text').addClass('pulse-refresh');
+
+            $.ajax({
+                url: 'https://localhost:7174/api/Dashboard/rates', // Backend'deki Endpoint
+                method: 'GET',
+      
+                success: function (data) {
+                    console.log("Gelen Veri:", data); // F12 -> Console sekmesinden kontrol et
+
+                    // Data'yı dönüyoruz
+                    data.forEach(item => {
+                        let symbol = item.symbol || item.Symbol;
+                        let price = item.price || item.Price;
+
+                        const formattedPrice = new Intl.NumberFormat('tr-TR', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }).format(price);
+
+                        if (symbol === "USD") {
+                            // Id'lerin HTML tarafı ile uyumlu (usd-price)
+                            $('#usd-price').html(formattedPrice + " <small>₺</small>");
+                            $('#usd-time').text(new Date().toLocaleTimeString());
+                        } else if (symbol === "EUR") {
+                            // Id'lerin HTML tarafı ile uyumlu (eur-price)
+                            $('#eur-price').html(formattedPrice + " <small>₺</small>");
+                            $('#eur-time').text(new Date().toLocaleTimeString());
+                        }
+                    }); // forEach'in kapanışı
+                }, // success bloğunun kapanışı
+                error: function (xhr, status, error) {
+                    console.error("Döviz verileri çekilemedi.", error);
+                    console.log("Hata Detayı:", xhr.responseText); // Sorun varsa detayını görebilmek için
+                    $('.price-text').text("Hata!").css('color', 'red');
+                }, // error bloğunun kapanışı
+                complete: function() {
+                    // Animasyon sınıfını temizle
+                    setTimeout(() => {
+                        $('.price-text').removeClass('pulse-refresh');
+                    }, 800);
+                } // complete bloğunun kapanışı
+            }); // ajax bloğunun kapanışı
+        }
+
+        // Sayfa açılır açılmaz veriyi çek
+        getExchangeRates();
+
+        // Her 60 saniyede bir otomatik yenile (Canlı veri takibi)
+        setInterval(getExchangeRates, 60000);
+    });
+</script>

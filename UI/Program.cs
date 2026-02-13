@@ -59,6 +59,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.Use(async (context, next) =>
+{
+    // Backend adresimizi (7174) ve Google Ads'i ekledik. 
+    // Ayrýca localhost:* diyerek tüm localhost portlarýna (Visual Studio araçlarý dahil) izin veriyoruz.
+    context.Response.Headers.Append("Content-Security-Policy",
+        "connect-src 'self' https://localhost:7174 https://www.googleadservices.com http://localhost:* ws://localhost:*;");
+    await next();
+});
 app.UseStaticFiles();
 
 app.UseRouting();
