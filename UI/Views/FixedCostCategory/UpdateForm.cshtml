@@ -1,0 +1,148 @@
+﻿@using UI.Models.FixedCost.FixedCostCategory;
+@model FixedCostCategoryViewDto
+
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .custom-dark-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .custom-dark-header {
+        background-color: #252525 !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    .text-accent {
+        color: #00d1b2 !important;
+    }
+
+    /* Form Elemanları */
+    .form-control {
+        background-color: #2a2a2a !important;
+        border: 1px solid #444 !important;
+        color: #fff !important;
+        border-radius: 10px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+    }
+
+        .form-control:focus {
+            background-color: #333 !important;
+            border-color: #0d6efd !important; /* Düzenleme modu vurgusu */
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+            color: #fff !important;
+        }
+
+    .form-label {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Butonlar */
+    .btn-update {
+        background-color: #0d6efd;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 10px 25px;
+        border-radius: 8px;
+        transition: all 0.3s;
+    }
+
+        .btn-update:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+    .btn-cancel {
+        border: 1px solid #444;
+        color: #999;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+        .btn-cancel:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+    .edit-icon-header {
+        width: 60px;
+        height: 60px;
+        background: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5">
+            <div class="card custom-dark-card shadow-lg">
+                <div class="card-header custom-dark-header py-4 text-center">
+                    <div class="edit-icon-header">
+                        <i class="bi bi-pencil-square fs-2"></i>
+                    </div>
+                    <h4 class="mb-0 fw-bold text-white">Kategori Düzenle</h4>
+                    <p class="text-muted small mb-0 mt-2">"@Model.Name" kategorisinin bilgilerini güncelleyin</p>
+                </div>
+
+                <div class="card-body p-4 p-lg-5">
+                    <form asp-controller="FixedCostCategory" asp-action="Update" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger small"></div>
+
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label">Kategori Adı</label>
+                            <input asp-for="Name" class="form-control" placeholder="Örn: Banka Borçları" />
+                            <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label">Açıklama</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Kategori detayı..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <div class="d-grid gap-3 mt-5">
+                            <button type="submit" class="btn btn-update py-3">
+                                <i class="bi bi-save2 me-2"></i> Değişiklikleri Kaydet
+                            </button>
+                            <a asp-controller="FixedCostCategory" asp-action="Index" class="btn btn-cancel py-2 text-center text-decoration-none">
+                                <i class="bi bi-x-circle me-1"></i> Vazgeç
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    <i class="bi bi-info-circle me-1 text-accent"></i>
+                    ID: #@Model.Id — Bu kategorideki tüm kayıtlar güncellenecektir.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -26,6 +26,11 @@ namespace UI.Services.FixedCost
             return await _httpClient.GetFromJsonAsync<List<FixedCostCategoryViewDto>>("api/FixedCostCategory");
         }
 
+        public async Task<FixedCostCategoryViewDto> GetByWithId(int id)
+        {
+            return await _httpClient.GetFromJsonAsync<FixedCostCategoryViewDto>($"api/FixedCostCategory/{id}");
+        }
+
         public async Task UpdateAsync(FixedCostCategoryUpdateDto dto)
         {
             var response = await _httpClient.PutAsJsonAsync("api/FixedCostCategory", dto);

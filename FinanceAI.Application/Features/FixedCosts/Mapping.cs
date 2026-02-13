@@ -11,14 +11,19 @@ namespace FinanceAI.Application.Features.FixedCosts
     public class Mapping : Profile
     {
         public Mapping()
+
         {
+            CreateMap<FixedCostUpdateDto, FixedCost>().ForMember(dest => dest.Id, opt => opt.Ignore()); // Id'yi güncelleme sırasında ignore ediyoruz ki yanlışlıkla değiştirilmesin.
+
             CreateMap<FixedCostCreateDto, FixedCost>();
+            CreateMap<FixedCost, FixedCostDto>().ReverseMap();
 
             CreateMap<FixedCostCategory, FixedCostCategoryViewDto>().ReverseMap();
 
             CreateMap<FixedCostCategoryCreateDto, FixedCostCategory>();
 
             CreateMap<FixedCostCategoryUpdateDto, FixedCostCategory>();
+         
 
             CreateMap<FixedCost, FixedCostDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.FixedCostCategory.Name))

@@ -27,6 +27,19 @@ namespace FinanceAI.WebApi.Controllers.FixedCostController
 
 
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCategoryById(int id)
+        {
+            var result = await _service.GetByWithId(id);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
+
+
+
+
         [HttpPost]
         public async Task<IActionResult> Create(FixedCostCategoryCreateDto dto)
         {

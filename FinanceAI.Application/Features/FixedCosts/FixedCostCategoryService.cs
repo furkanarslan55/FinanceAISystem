@@ -47,6 +47,22 @@ namespace FinanceAI.Application.Features.FixedCosts
             return _mapper.Map<List<FixedCostCategoryViewDto>>(categories);
         }
 
+        public async Task<FixedCostCategoryViewDto> GetByWithId(int id)
+        {
+            var entity = await _repository.GetByIdAsync(id);
+            if (entity == null || entity.AppUserId != CurrentUserId)
+            {
+                throw new KeyNotFoundException("Fixed cost category not found.");
+            }
+
+            return new FixedCostCategoryViewDto
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Description = entity.Description
+            };
+        }
+
         public async Task UpdateAsync(FixedCostCategoryUpdateDto dto)
         {
             var category = await _repository.GetByIdAsync(dto.Id);

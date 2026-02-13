@@ -37,17 +37,17 @@ namespace FinanceAI.WebApi.Controllers.FixedCostController
             await _fixedCostService.CreateAsync(dto);
             return Ok();
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, FixedCostUpdateDto dto)
         {
             await _fixedCostService.UpdateAsync(id, dto);
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _fixedCostService.DeleteAsync(id);
-            return Ok();
+            return NoContent();
 
 
 

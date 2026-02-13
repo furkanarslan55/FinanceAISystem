@@ -31,7 +31,8 @@ namespace FinanceAI.Application.Features.FixedCosts
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity == null || entity.AppUserId != CurrentUserId)
-                _repository.Remove(entity);
+                throw new Exception("Fixed cost not found or access denied.");
+            _repository.Remove(entity);
             await _unitOfWork.CommitAsync();
         }
 
@@ -42,12 +43,19 @@ namespace FinanceAI.Application.Features.FixedCosts
 
         }
 
-        public Task<FixedCostDto> GetByIdWithCategoryAsync(int id)
+        public async Task<FixedCostDto> GetByIdWithCategoryAsync(int id)
         {
-            var entity = _repository.GetFixedCostWithCategoryByIdAsync(id);
-                        if (entity == null || entity.Result.AppUserId != CurrentUserId)
+            var entity =await _repository.GetFixedCostWithCategoryByIdAsync(id);
+                        if (entity == null || entity.AppUserId != CurrentUserId)
                 throw new Exception("Fixed cost not found or access denied.");
-                        return _mapper.Map<Task<FixedCostDto>>(entity);
+
+                       return new FixedCostDto
+                       {
+                           Id = entity.Id,
+                           Name = entity.Name,
+                           Amount = entity.Amount,
+                           CategoryName = entity.FixedCostCategory.Name
+                       };
         }
 
         public async Task UpdateAsync(int id, FixedCostUpdateDto dto)

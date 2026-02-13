@@ -21,7 +21,7 @@ builder.Services.AddScoped<IIncomeService, IncomeService>();
 builder.Services.AddScoped<IDebtCategoryService, DebtCategoryService>();
 builder.Services.AddScoped<IDebtService, DebtService>();
 builder.Services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>();
-//builder.Services.AddScoped<IFixedCostService, FixedCostService>();
+builder.Services.AddScoped<IFixedCostService, FixedCostService>();
 
 
 // 4. HttpClient Yapýlandýrmasý

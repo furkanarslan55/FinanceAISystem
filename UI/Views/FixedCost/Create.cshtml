@@ -1,0 +1,174 @@
+﻿@using UI.Models.FixedCost;
+@model FixedCostCreateDto;
+@{
+    ViewData["Title"] = "Yeni Borç Ekle";
+    var categories = ViewBag.Categories as List<UI.Models.FixedCost.FixedCostCategory.FixedCostCategoryViewDto>;
+}
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .custom-dark-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .custom-dark-header {
+        background-color: #252525 !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    .text-accent {
+        color: #00d1b2 !important;
+    }
+
+    /* Form Elemanları Modernizasyonu */
+    .form-control, .form-select {
+        background-color: #2a2a2a !important;
+        border: 1px solid #444 !important;
+        color: #fff !important;
+        border-radius: 10px;
+        padding: 12px 15px;
+    }
+
+        .form-control:focus, .form-select:focus {
+            background-color: #333 !important;
+            border-color: #ff4d4d !important; /* Borç formu için kırmızımtırak vurgu */
+            box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.1);
+            color: #fff !important;
+        }
+
+    .input-group-text {
+        background-color: #333 !important;
+        border: 1px solid #444 !important;
+        color: #ff4d4d !important;
+        font-weight: bold;
+    }
+
+    .form-label {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    /* Butonlar */
+    .btn-save-debt {
+        background-color: #ff4d4d;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+        .btn-save-debt:hover {
+            background-color: #e63e3e;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3);
+        }
+
+    .btn-cancel {
+        border: 1px solid #444;
+        color: #999;
+    }
+
+        .btn-cancel:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+    ::placeholder {
+        color: #666 !important;
+        opacity: 1;
+    }
+
+    .debt-icon-bg {
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 77, 77, 0.1);
+        color: #ff4d4d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card custom-dark-card shadow-lg">
+                <div class="card-header custom-dark-header py-4 text-center">
+                    <div class="debt-icon-bg">
+                        <i class="bi bi-shield-exclamation fs-2"></i>
+                    </div>
+                    <h4 class="mb-0 fw-bold text-white">Yeni Gider Kaydı</h4>
+                    <p class="text-muted small mb-0 mt-2">Giderlerinizi takip etmek için gider detaylarını girin</p>
+                </div>
+
+                <div class="card-body p-4 p-lg-5">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger small"></div>
+
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <label asp-for="Name" class="form-label">Gider Adı </label>
+                                <input asp-for="Name" class="form-control" placeholder="Örn:  Kira..." autofocus />
+                                <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Amount" class="form-label">Tutar</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">₺</span>
+                                    <input asp-for="Amount" type="number" step="0.01" class="form-control form-control-lg fw-bold" placeholder="0.00" />
+                                </div>
+                                <span asp-validation-for="Amount" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                          
+
+                            <div class="col-md-12 mb-4">
+                                <label asp-for="FixedCostCategoryId" class="form-label">Kategori</label>
+                                <select asp-for="FixedCostCategoryId" class="form-select"
+                                        asp-items="@(new SelectList(categories, "Id", "Name"))">
+                                    <option value="" disabled selected>Kategori seçiniz...</option>
+                                </select>
+                                <span asp-validation-for="FixedCostCategoryId" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                           
+                        </div>
+
+                        <div class="d-grid gap-3 mt-4">
+                            <button type="submit" class="btn btn-save-debt py-3">
+                                <i class="bi bi-check-circle me-2"></i>Gider Kaydını Oluştur
+                            </button>
+                            <a asp-controller="FixedCost" asp-action="Index" class="btn btn-cancel py-2">
+                                <i class="bi bi-arrow-left me-1"></i> Listeye Dön
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-muted small">
+                    <i class="bi bi-info-circle me-1 text-accent"></i>
+                    Doğru vade tarihleri girmek, ödeme hatırlatıcıları için önemlidir.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

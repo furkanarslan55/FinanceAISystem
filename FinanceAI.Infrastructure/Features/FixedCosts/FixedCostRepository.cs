@@ -26,9 +26,7 @@ namespace FinanceAI.Infrastructure.Features.FixedCosts
 
         public async Task<FixedCost> GetFixedCostWithCategoryByIdAsync(int fixedCostId)
         {
-            return await _context.FixedCosts
-                  .Include(x => x.FixedCostCategory)
-                  .FirstOrDefaultAsync(x => x.Id == fixedCostId);
+            return await _context.FixedCosts.Include(x => x.FixedCostCategory).Where(x => x.Id== fixedCostId).FirstOrDefaultAsync();
         }
     }
 }
