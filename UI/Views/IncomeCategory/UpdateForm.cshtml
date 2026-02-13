@@ -5,46 +5,140 @@
     ViewData["Title"] = "Gelir Kategorisi Güncelle";
 }
 
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Gelir Düzenle</h4>
-        </div>
-        <div class="card-body">
-            <form asp-controller="IncomeCategory" asp-action="Update" method="post">
-              
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
 
-              
-                <input type="hidden" asp-for="Id" />
+    .custom-dark-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 16px;
+        overflow: hidden;
+    }
 
-                <div class="mb-3">
-                    <label asp-for="Name" class="form-label">Kategori Adı</label>
-                    <input asp-for="Name" class="form-control" placeholder="Örn: Maaş, Freelance..." />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+    .custom-dark-header {
+        background-color: #252525 !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    .text-accent {
+        color: #00d1b2 !important;
+    }
+
+    /* Form Elemanları */
+    .form-control {
+        background-color: #2a2a2a !important;
+        border: 1px solid #444 !important;
+        color: #fff !important;
+        border-radius: 10px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #0d6efd !important; /* Düzenleme modu için mavi odak */
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+    .form-label {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.6rem;
+    }
+
+    /* Butonlar */
+    .btn-update {
+        background-color: #0d6efd;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 10px 25px;
+        border-radius: 8px;
+    }
+
+        .btn-update:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+    .btn-cancel {
+        border: 1px solid #444;
+        color: #999;
+        border-radius: 8px;
+    }
+
+        .btn-cancel:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+    .edit-badge {
+        background: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-5">
+            <div class="card custom-dark-card shadow-lg">
+                <div class="card-header custom-dark-header py-4 text-center">
+                    <span class="edit-badge fw-bold">Kategori Güncelleme</span>
+                    <h4 class="mb-0 fw-bold text-white">
+                        <i class="bi bi-pencil-square me-2 text-accent"></i>@Model.Name
+                    </h4>
+                    <p class="text-muted small mb-0 mt-2">Kategori ismini ve açıklamasını buradan değiştirebilirsiniz.</p>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="Description" class="form-label">Açıklama</label>
-                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
+                <div class="card-body p-4 p-lg-5">
+                    <form asp-controller="IncomeCategory" asp-action="Update" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger small"></div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-check-circle"></i> Değişiklikleri Kaydet
-                    </button>
-                    <a asp-controller="Income" asp-action="Index" class="btn btn-outline-secondary">
-                        Vazgeç
-                    </a>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label">Kategori Adı</label>
+                            <input asp-for="Name" class="form-control form-control-lg" placeholder="Örn: Freelance, Maaş..." />
+                            <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label">Açıklama (Opsiyonel)</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Bu kategori hakkında kısa bir not..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
+                        </div>
+
+                        <div class="d-grid gap-3 mt-5">
+                            <button type="submit" class="btn btn-update py-3">
+                                <i class="bi bi-check2-circle me-1"></i> Değişiklikleri Kaydet
+                            </button>
+                            <a asp-controller="Income" asp-action="Index" class="btn btn-cancel py-2">
+                                Vazgeç
+                            </a>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
+
+            <div class="text-center mt-4">
+                <small class="text-muted">
+                    <i class="bi bi-info-circle me-1"></i> Bu kategoriye bağlı gelirler otomatik olarak güncellenecektir.
+                </small>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @* Sayfa yenilenmeden hata kontrolü (client-side validation) *@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

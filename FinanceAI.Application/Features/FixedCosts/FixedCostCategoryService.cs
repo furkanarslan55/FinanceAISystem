@@ -4,7 +4,7 @@ using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Entities.FixedCostsEntity;
 using FinanceAI.Core.Interfaces;
 
-namespace FinanceAI.Application.Features.FixedCost
+namespace FinanceAI.Application.Features.FixedCosts
 {
     public class FixedCostCategoryService : BaseService, IFixedCostCategoryService
     {

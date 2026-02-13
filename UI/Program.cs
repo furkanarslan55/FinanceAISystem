@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using UI.DelegatingHandlers;
 using UI.Services.Auth;
 using UI.Services.Debt;
+using UI.Services.FixedCost;
 using UI.Services.Incomes;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,10 @@ builder.Services.AddScoped<IIncomeCategoryService, IncomeCategoryService>();
 builder.Services.AddScoped<IIncomeService, IncomeService>();
 builder.Services.AddScoped<IDebtCategoryService, DebtCategoryService>();
 builder.Services.AddScoped<IDebtService, DebtService>();
+builder.Services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>();
+//builder.Services.AddScoped<IFixedCostService, FixedCostService>();
+
+
 // 4. HttpClient Yapýlandýrmasý
 // LOGIN ÝÇÝN: TokenHandler içermeyen yalýn bir client (Döngüye girmemek için)
 builder.Services.AddHttpClient("AuthClient", client =>

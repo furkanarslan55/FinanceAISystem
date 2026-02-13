@@ -1,72 +1,166 @@
 ﻿@using UI.Models.Debt;
 @model DebtViewDto;
 @{
-    ViewData["Title"] = "Update Debt";
+    ViewData["Title"] = "Borç Güncelle";
     var categories = ViewBag.Categories as List<UI.Models.Debt.DebtCategoryDto>;
 }
 
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
 
+    .custom-dark-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 16px;
+        overflow: hidden;
+    }
 
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Kategori Düzenle</h4>
-        </div>
-        <div class="card-body">
-            <form asp-controller="Debt" asp-action="Update" method="post">
+    .custom-dark-header {
+        background-color: #252525 !important;
+        border-bottom: 1px solid #333 !important;
+    }
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    .text-accent {
+        color: #00d1b2 !important;
+    }
 
+    /* Form Elemanları */
+    .form-control, .form-select {
+        background-color: #2a2a2a !important;
+        border: 1px solid #444 !important;
+        color: #fff !important;
+        border-radius: 10px;
+        padding: 12px 15px;
+    }
 
-                <input type="hidden" asp-for="Id" />
+        .form-control:focus, .form-select:focus {
+            background-color: #333 !important;
+            border-color: #0d6efd !important; /* Düzenleme modu vurgusu */
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+            color: #fff !important;
+        }
 
+    .form-label {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
 
+    /* Butonlar */
+    .btn-update {
+        background-color: #0d6efd;
+        border: none;
+        color: #fff;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
 
-                <div class="mb-3">
-                    <label asp-for="Name" class="form-label">Ad</label>
-                    <input asp-for="Name" class="form-control" placeholder="Örn: Name" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
+        .btn-update:hover {
+            background-color: #0b5ed7;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+
+    .btn-cancel {
+        border: 1px solid #444;
+        color: #999;
+    }
+
+        .btn-cancel:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+    .edit-icon-circle {
+        width: 60px;
+        height: 60px;
+        background: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card custom-dark-card shadow-lg">
+                <div class="card-header custom-dark-header py-4 text-center">
+                    <div class="edit-icon-circle">
+                        <i class="bi bi-pencil-square fs-2"></i>
+                    </div>
+                    <h4 class="mb-0 fw-bold text-white">Borç Kaydını Güncelle</h4>
+                    <p class="text-muted small mb-0 mt-2">Mevcut borç detaylarını ve vade tarihini revize edin</p>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="Amount" class="form-label">Miktar </label>
-                    <input asp-for="Amount" class="form-control" placeholder="12345" />
-                    <span asp-validation-for="Amount" class="text-danger"></span>
-                </div>
 
-                <div class="mb-3">
-                    <label asp-for="DueDate" class="form-label">Tarih</label>
-                    <textarea asp-for="DueDate" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="DueDate" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Description" class="form-label">Açıklama</label>
-                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="CategoryName" class="form-label fw-bold">Kategori Seçimi</label>
-                    <select asp-for="CategoryName" class="form-select"
-                            asp-items="@(new SelectList(categories, "Id", "Name"))">
-                        <option value="">@Model.CategoryName</option>
-                    </select>
-                    <span asp-validation-for="CategoryName" class="text-danger small"></span>
-                </div>
+                <div class="card-body p-4 p-lg-5">
+                    <form asp-controller="Debt" asp-action="Update" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger small"></div>
 
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-check-circle"></i> Değişiklikleri Kaydet
-                    </button>
-                    <a asp-controller="Debt" asp-action="Index" class="btn btn-outline-secondary">
-                        Vazgeç
-                    </a>
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <label asp-for="Name" class="form-label">Borç Adı / Alacaklı</label>
+                                <input asp-for="Name" class="form-control" placeholder="Örn: Banka Kredisi" />
+                                <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="Amount" class="form-label">Miktar (₺)</label>
+                                <input asp-for="Amount" type="number" step="0.01" class="form-control fw-bold text-danger" placeholder="0.00" />
+                                <span asp-validation-for="Amount" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label asp-for="DueDate" class="form-label">Vade Tarihi</label>
+                                <input asp-for="DueDate" type="date" class="form-control" value="@Model.DueDate.ToString("yyyy-MM-dd")" />
+                                <span asp-validation-for="DueDate" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                            <div class="col-md-12 mb-4">
+                                <label asp-for="CategoryName" class="form-label">Kategori</label>
+                                <select asp-for="CategoryName" class="form-select"
+                                        asp-items="@(new SelectList(categories, "Name", "Name", Model.CategoryName))">
+                                    <option value="" disabled>Kategori seçiniz...</option>
+                                </select>
+                                <span asp-validation-for="CategoryName" class="text-danger small mt-1 d-block"></span>
+                            </div>
+
+                            <div class="col-md-12 mb-4">
+                                <label asp-for="Description" class="form-label">Açıklama</label>
+                                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Borç ile ilgili notlar..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger small mt-1 d-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-3 mt-4">
+                            <button type="submit" class="btn btn-update py-3">
+                                <i class="bi bi-save2 me-2"></i> Değişiklikleri Kaydet
+                            </button>
+                            <a asp-controller="Debt" asp-action="Index" class="btn btn-cancel py-2">
+                                <i class="bi bi-x-circle me-1"></i> Vazgeç
+                            </a>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
+
+            <div class="text-center mt-4">
+                <small class="text-muted">Kayıt ID: #@Model.Id | Sistem saati ile güncelleniyor.</small>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @* Sayfa yenilenmeden hata kontrolü (client-side validation) *@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

@@ -4,60 +4,147 @@
     ViewData["Title"] = "Borç Kategorileri";
 }
 
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .custom-dark-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 12px;
+    }
+
+    .custom-dark-header {
+        background-color: #252525 !important;
+        border-bottom: 1px solid #333 !important;
+        border-radius: 12px 12px 0 0 !important;
+    }
+
+    .text-accent {
+        color: #00d1b2 !important;
+    }
+
+    .table-dark-custom {
+        color: #e0e0e0;
+    }
+
+        .table-dark-custom thead {
+            background-color: #2c2c2c;
+            color: #00d1b2;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .table-dark-custom tbody tr {
+            border-bottom: 1px solid #2a2a2a;
+            transition: background 0.2s;
+        }
+
+            .table-dark-custom tbody tr:hover {
+                background-color: #252525 !important;
+            }
+
+    .btn-add-main {
+        background-color: #00d1b2;
+        border: none;
+        color: #121212;
+        font-weight: 600;
+    }
+
+        .btn-add-main:hover {
+            background-color: #00bfa5;
+            color: #121212;
+            box-shadow: 0 4px 12px rgba(0, 209, 178, 0.2);
+        }
+
+    .category-id {
+        color: #666;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+    }
+
+    .btn-action-custom {
+        border-radius: 6px;
+        padding: 4px 12px;
+        transition: all 0.2s;
+    }
+</style>
+
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2><i class="bi bi-tags"></i> Borç Kategorileri</h2>
-        <a asp-action="Create" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Yeni Kategori Ekle
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-accent mb-0 fw-bold"><i class="bi bi-tags-fill me-2"></i>Borç Kategorileri</h2>
+            <small class="text-muted">Borçlarınızı gruplandırmak için kategorileri yönetin</small>
+        </div>
+        <a asp-action="Create" class="btn btn-add-main px-4">
+            <i class="bi bi-plus-circle me-1"></i> Yeni Kategori Ekle
         </a>
     </div>
 
-    <div class="card shadow-sm">
+    <div class="card custom-dark-card shadow-lg">
         <div class="card-body p-0">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th style="width: 10%">#ID</th>
-                        <th style="width: 25%">Kategori Adı</th>
-                        <th style="width: 45%">Açıklama</th>
-                        <th style="width: 20%" class="text-center">İşlemler</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model != null && Model.Any())
-                    {
-                        foreach (var item in Model)
+            <div class="table-responsive">
+                <table class="table table-dark-custom align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4 py-3 border-0" style="width: 10%">#ID</th>
+                            <th class="border-0" style="width: 25%">Kategori Adı</th>
+                            <th class="border-0" style="width: 45%">Açıklama</th>
+                            <th class="border-0 text-center pe-4" style="width: 20%">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="ps-4 category-id">#@item.Id</td>
+                                    <td><strong class="text-white">@item.Name</strong></td>
+                                    <td>
+                                        <span class="text-secondary small">
+                                            @(string.IsNullOrEmpty(item.Description) ? "—" : item.Description)
+                                        </span>
+                                    </td>
+                                    <td class="text-center pe-4">
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a asp-action="Update" asp-route-id="@item.Id"
+                                               class="btn btn-action-custom btn-outline-info btn-sm" title="Düzenle">
+                                                <i class="bi bi-pencil-square"></i> Düzenle
+                                            </a>
+
+                                            <button type="button"
+                                                    class="btn btn-action-custom btn-outline-danger btn-sm"
+                                                    onclick="confirmDelete(@item.Id)" title="Sil">
+                                                <i class="bi bi-trash3"></i> Sil
+                                            </button>
+                                        </div>
+
+                                        <form id="delete-form-@item.Id"
+                                              asp-controller="DebtCategory"
+                                              asp-action="Delete"
+                                              asp-route-id="@item.Id"
+                                              method="post"
+                                              style="display:none;"></form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
                         {
                             <tr>
-                                <td>@item.Id</td>
-                                <td><strong>@item.Name</strong></td>
-                                <td>@(string.IsNullOrEmpty(item.Description) ? "-" : item.Description)</td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">
-                                            <i class="bi bi-pencil"></i> Düzenle
-                                        </a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete(@item.Id)">
-                                            <i class="bi bi-trash"></i> Sil
-                                        </button>
-                                    </div>
-
-                                 
-                                    <form id="delete-form-@item.Id" asp-controller="DebtCategory" asp-action="Delete" asp-route-id="@item.Id" method="post" style="display:none;"></form>
+                                <td colspan="4" class="text-center py-5">
+                                    <i class="bi bi-tag fs-1 d-block mb-3 text-muted"></i>
+                                    <p class="text-muted">Henüz bir kategori eklenmemiş.</p>
                                 </td>
                             </tr>
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="4" class="text-center py-4">
-                                <p class="text-muted">Henüz bir kategori eklenmemiş.</p>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -68,13 +155,18 @@
         function confirmDelete(id) {
             Swal.fire({
                 title: 'Emin misiniz?',
-                text: "Bu kategori silindiğinde geri alınamaz!",
+                text: "Bu kategori silindiğinde bağlı borçlar etkilenebilir!",
                 icon: 'warning',
+                background: '#1e1e1e',
+                color: '#fff',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
+                cancelButtonColor: '#444',
                 confirmButtonText: 'Evet, sil!',
-                cancelButtonText: 'Vazgeç'
+                cancelButtonText: 'Vazgeç',
+                customClass: {
+                    popup: 'border border-secondary'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('delete-form-' + id).submit();

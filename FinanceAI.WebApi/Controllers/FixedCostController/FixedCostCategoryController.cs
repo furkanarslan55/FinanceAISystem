@@ -1,4 +1,4 @@
-﻿using FinanceAI.Application.Features.FixedCost;
+﻿using FinanceAI.Application.Features.FixedCosts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@ namespace FinanceAI.WebApi.Controllers.FixedCostController
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllCategories()
         {
             var result = await _service.GetAllByUserIdAsync(); //service içindeki CurrentUserId sayesinde otomatik olarak sadece o kullanıcının verileri gelir.
             return Ok(result);

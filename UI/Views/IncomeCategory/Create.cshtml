@@ -4,29 +4,129 @@
     ViewData["Title"] = "Yeni Kategori Ekle";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Yeni Gelir Kategorisi</h4>
-                </div>
-                <div class="card-body">
-                    <form asp-action="Create" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<style>
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
 
-                        <div class="form-group mb-3">
-                            <label asp-for="Name" class="control-label">Kategori Adı</label>
-                            <input asp-for="Name" class="form-control" placeholder="Örn: Maaş, Kira Geliri..." />
-                            <span asp-validation-for="Name" class="text-danger"></span>
+    .custom-dark-card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+
+    .custom-dark-header {
+        background-color: #252525 !important;
+        border-bottom: 1px solid #333 !important;
+    }
+
+    .text-accent {
+        color: #00d1b2 !important;
+    }
+
+    /* Form Modernizasyonu */
+    .form-control {
+        background-color: #2a2a2a !important;
+        border: 1px solid #444 !important;
+        color: #fff !important;
+        border-radius: 10px;
+        padding: 12px 15px;
+        transition: all 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #00d1b2 !important;
+            box-shadow: 0 0 0 0.25rem rgba(0, 209, 178, 0.1);
+        }
+
+    .form-label {
+        color: #b0b0b0;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 0.6rem;
+    }
+
+    /* Butonlar */
+    .btn-save {
+        background-color: #00d1b2;
+        border: none;
+        color: #121212;
+        font-weight: 600;
+        padding: 10px 25px;
+        border-radius: 8px;
+    }
+
+        .btn-save:hover {
+            background-color: #00bfa5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 209, 178, 0.2);
+        }
+
+    .btn-back {
+        color: #999;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s;
+    }
+
+        .btn-back:hover {
+            color: #fff;
+        }
+
+    .category-icon-bg {
+        width: 60px;
+        height: 60px;
+        background: rgba(0, 209, 178, 0.1);
+        color: #00d1b2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card custom-dark-card shadow-lg">
+                <div class="card-header custom-dark-header py-4 text-center">
+                    <div class="category-icon-bg">
+                        <i class="bi bi-tag-fill fs-2"></i>
+                    </div>
+                    <h4 class="mb-0 fw-bold text-white">Yeni Kategori</h4>
+                    <p class="text-muted small mb-0 mt-2">Gelirlerinizi sınıflandırmak için yeni bir başlık ekleyin</p>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 bg-danger bg-opacity-10 text-danger small"></div>
+
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label">Kategori Adı</label>
+                            <input asp-for="Name" class="form-control" placeholder="Örn: Freelance, Yatırım..." autofocus />
+                            <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Index" class="btn btn-secondary">İptal / Geri Dön</a>
-                            <button type="submit" class="btn btn-success">Kaydet</button>
+                        <div class="d-flex flex-column gap-2 mt-2">
+                            <button type="submit" class="btn btn-save w-100">
+                                <i class="bi bi-plus-circle me-2"></i>Kategoriyi Oluştur
+                            </button>
+                            <a asp-action="Index" class="btn btn-back text-center py-2 mt-2">
+                                <i class="bi bi-arrow-left me-1"></i> Vazgeç ve Listeye Dön
+                            </a>
                         </div>
                     </form>
                 </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-muted small">
+                    <i class="bi bi-lightbulb me-1 text-accent"></i>
+                    Kategoriler, harcamalarınızı daha iyi analiz etmenizi sağlar.
+                </p>
             </div>
         </div>
     </div>

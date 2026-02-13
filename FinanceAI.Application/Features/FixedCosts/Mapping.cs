@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceAI.Application.Features.FixedCost
+namespace FinanceAI.Application.Features.FixedCosts
 {
     public class Mapping : Profile
     {
@@ -18,6 +18,10 @@ namespace FinanceAI.Application.Features.FixedCost
             CreateMap<FixedCostCategoryCreateDto, FixedCostCategory>();
 
             CreateMap<FixedCostCategoryUpdateDto, FixedCostCategory>();
+
+            CreateMap<FixedCost, FixedCostDto>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.FixedCostCategory.Name))
+                .ReverseMap();
         }
     }
 }

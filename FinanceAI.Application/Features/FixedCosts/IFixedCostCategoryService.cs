@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceAI.Application.Features.FixedCost
+namespace FinanceAI.Application.Features.FixedCosts
 {
     public interface IFixedCostCategoryService
     {
@@ -13,5 +13,7 @@ namespace FinanceAI.Application.Features.FixedCost
         Task CreateAsync(FixedCostCategoryCreateDto dto);
         Task UpdateAsync(FixedCostCategoryUpdateDto dto);
         Task DeleteAsync(int id);
+
+       
     }
 }
