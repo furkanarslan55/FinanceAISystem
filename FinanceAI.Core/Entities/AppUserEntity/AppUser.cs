@@ -14,6 +14,8 @@ namespace FinanceAI.Core.Entities.AppUserEntity
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
 
+        public string PhoneNumber { get; set; } = string.Empty;
+
         public decimal MonthlyIncome { get; set; }
         public decimal TotalDebtAmount { get; set; }
 

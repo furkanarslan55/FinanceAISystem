@@ -17,7 +17,7 @@ namespace FinanceAI.Application.Features.AppUser
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
         }
-        // Constructor'a ITokenService enjekte etmeyi unutma!
+       
         public async Task<TokenResponseDto> LoginAsync(UserLoginDto loginDto)
         {
             var user = await _userRepository.GetByEmailAsync(loginDto.Email);
@@ -43,7 +43,8 @@ namespace FinanceAI.Application.Features.AppUser
                 LastName = dto.LastName,
                 Email = dto.Email,
                 PasswordHash = hashedPassword, 
-                MonthlyIncome = dto.MonthlyIncome
+                MonthlyIncome = dto.MonthlyIncome,
+                PhoneNumber = dto.PhoneNumber
             };
 
             await _userRepository.AddAsync(user);
