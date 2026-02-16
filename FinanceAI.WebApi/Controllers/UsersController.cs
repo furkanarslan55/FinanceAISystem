@@ -1,6 +1,7 @@
 ﻿using FinanceAI.Application.Features.AppUser;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinanceAI.WebApi.Controllers
 {
@@ -9,10 +10,12 @@ namespace FinanceAI.WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+  
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService )
         {
             _userService = userService;
+           
         }
 
         [HttpPost("register")]
@@ -45,5 +48,13 @@ namespace FinanceAI.WebApi.Controllers
             // Sadece başarılı yanıt döner.
             return Ok(new { message = "Başarıyla çıkış yapıldı." });
         }
+        [HttpGet("profile/{id}")]
+        public async Task<IActionResult> GetProfile(int id)
+        {
+            var user = await _userService.GetUserProfileById(id);
+            return Ok(user);
+
+        }
+
     }
 }

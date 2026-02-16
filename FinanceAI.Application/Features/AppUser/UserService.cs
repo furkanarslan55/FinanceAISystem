@@ -1,5 +1,7 @@
 ﻿using FinanceAI.Application.Interfaces;
 using FinanceAI.Core.Interfaces;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace FinanceAI.Application.Features.AppUser
 {
@@ -9,13 +11,19 @@ namespace FinanceAI.Application.Features.AppUser
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenService _tokenService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly int CurrentUserId;
 
-        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher,ITokenService tokenService)
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher,ITokenService tokenService, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
+            _httpContextAccessor = httpContextAccessor;
+            // Giriş yapan kullanıcının ID'sini Claims üzerinden güvenli bir şekilde alıyoruz
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
+            CurrentUserId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
         }
        
         public async Task<TokenResponseDto> LoginAsync(UserLoginDto loginDto)
@@ -65,6 +73,21 @@ namespace FinanceAI.Application.Features.AppUser
             if (user == null) throw new Exception("Kullanıcı bulunamadı");
 
             return new UserDto { Id = user.Id, FullName = $"{user.FirstName} {user.LastName}", Email = user.Email, MonthlyIncome = user.MonthlyIncome };
+        }
+
+        public async Task<UserViewDto> GetUserProfileById(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(CurrentUserId);
+            if (user == null) throw new Exception("Kullanıcı bulunamadı");
+          return new UserViewDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                MonthlyIncome = user.MonthlyIncome
+            };
         }
     }
 }

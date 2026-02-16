@@ -7,10 +7,12 @@ namespace UI.Controllers
     public class AccountController : Controller
     {
         private readonly IAuthService _authService;
+        private readonly IUserSetting _userSetting;
 
-        public AccountController(IAuthService authService)
+        public AccountController(IAuthService authService )
         {
             _authService = authService;
+         
         }
 
         [HttpGet]
@@ -71,5 +73,6 @@ namespace UI.Controllers
             ModelState.AddModelError("", "Kayıt sırasında bir hata oluştu.");
             return View(registerModel);
         }
+       
     }
 }

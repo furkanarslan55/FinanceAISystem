@@ -1,4 +1,8 @@
-﻿using UI.Models;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using UI.Models;
 using UI.Models.Auth;
 
 namespace UI.Services.Auth
@@ -23,14 +27,29 @@ namespace UI.Services.Auth
             {
                 var result = await response.Content.ReadFromJsonAsync<TokenResponse>();
 
-                // Token'ı Cookie içine gömüyoruz
+                // 1. Token'ı çözmek için handler oluştur
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadJwtToken(result.Token);
+
+                // 2. Token içindeki Claim'leri al
+                var claims = jwtToken.Claims.ToList();
+
+                // 3. Identity oluştur (AuthenticationType olarak "Jwt" veriyoruz)
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // 4. Sisteme giriş yap (Bu adım User.Identity'yi doldurur)
+                await _httpContextAccessor.HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    new AuthenticationProperties { IsPersistent = true });
+
+                // Opsiyonel: Token'ı yine de cookie'de saklayabilirsin
                 _httpContextAccessor.HttpContext.Response.Cookies.Append("JwtToken", result.Token, new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddMinutes(60)
                 });
+
                 return true;
             }
             return false;
@@ -62,5 +81,7 @@ namespace UI.Services.Auth
             return createdUser;
 
         }
+
+       
     }
 }

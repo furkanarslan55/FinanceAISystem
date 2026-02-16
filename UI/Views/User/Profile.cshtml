@@ -1,0 +1,127 @@
+﻿@using UI.Models.Auth
+@model UserViewDto
+@{
+    ViewData["Title"] = "Kullanıcı Profili";
+}
+
+<style>
+    body {
+        background-color: #0f0f0f; /* Derin siyah arka plan */
+        color: #e0e0e0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .profile-card {
+        background: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease;
+        overflow: hidden;
+    }
+
+    .profile-header {
+        background: linear-gradient(135deg, #2c3e50, #000000);
+        padding: 40px 20px;
+        text-align: center;
+        border-bottom: 1px solid #333;
+    }
+
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background: #3498db;
+        color: white;
+        font-size: 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 15px;
+        text-transform: uppercase;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+    }
+
+    .info-label {
+        color: #888;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 2px;
+    }
+
+    .info-value {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+        color: #ffffff;
+    }
+
+    .btn-update {
+        background-color: #ffffff;
+        color: #000000;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+
+        .btn-update:hover {
+            background-color: #cccccc;
+            transform: translateY(-2px);
+            color: #000;
+        }
+
+    hr {
+        border-top: 1px solid #333;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        @Model.FirstName[0]@Model.LastName[0]
+                    </div>
+                    <h3 class="mb-0">@Model.FirstName @Model.LastName</h3>
+                    <span class="badge bg-dark text-muted border border-secondary mt-2">Kullanıcı Profili</span>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="info-label">Ad</p>
+                            <p class="info-value">@Model.FirstName</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="info-label">Soyad</p>
+                            <p class="info-value">@Model.LastName</p>
+                        </div>
+                    </div>
+
+                    <p class="info-label">E-posta Adresi</p>
+                    <p class="info-value">@Model.Email</p>
+
+                    <p class="info-label">Telefon Numarası</p>
+                    <p class="info-value">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "Belirtilmemiş" : Model.PhoneNumber)</p>
+
+                    <hr class="my-4">
+
+                    <div class="d-grid">
+                        <a href="/Auth/UpdateProfile" class="btn-update">
+                            <i class="bi bi-pencil-square me-2"></i>Bilgileri Güncelle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

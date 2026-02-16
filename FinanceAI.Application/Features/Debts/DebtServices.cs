@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using FinanceAI.Application.Interfaces;
-using FinanceAI.Business.Features.Incomes;
-using FinanceAI.Core.Entities;
 using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Interfaces;
 using Microsoft.AspNetCore.Http;

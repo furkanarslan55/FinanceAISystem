@@ -1,4 +1,4 @@
-﻿namespace FinanceAI.Application.Features.AppUser
+﻿namespace UI.Models.Auth
 {
     public class UserViewDto
     {
@@ -10,6 +10,5 @@
 
         public string? PhoneNumber { get; set; }
         public decimal MonthlyIncome { get; set; }
-
     }
 }

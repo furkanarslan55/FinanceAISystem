@@ -15,5 +15,7 @@ namespace UI.Services.Auth
 
 
         Task<UserDto> RegisterAsync(UserRegisterDto registerModel);
+
+ 
     }
 }
