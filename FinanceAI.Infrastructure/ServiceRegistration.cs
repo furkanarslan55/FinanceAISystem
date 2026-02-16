@@ -33,7 +33,7 @@ namespace FinanceAI.Infrastructure
             // Repository ve UnitOfWork Kayıtları
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+           services.AddHttpContextAccessor();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserRepository, UserRepository>();

@@ -1,8 +1,131 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model DashboardViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    body {
+        background-color: #0f111a; /* Derin uzay siyahı */
+        color: #e0e0e0;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .dashboard-card {
+        background: rgba(255, 255, 255, 0.05); /* Şeffaf beyaz efekti */
+        backdrop-filter: blur(10px); /* Cam efekti */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+    .stat-label {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        font-weight: 600;
+        opacity: 0.7;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin-top: 5px;
+    }
+
+    /* Renk Vurguları */
+    .border-debt {
+        border-left: 5px solid #ff4d4d !important;
+    }
+
+    .border-income {
+        border-left: 5px solid #00db84 !important;
+    }
+
+    .border-fixed {
+        border-left: 5px solid #3abff8 !important;
+    }
+
+    .text-debt {
+        color: #ff4d4d;
+    }
+
+    .text-income {
+        color: #00db84;
+    }
+
+    .text-fixed {
+        color: #3abff8;
+    }
+
+    .card-footer-text {
+        font-size: 0.85rem;
+        background: rgba(0,0,0,0.2);
+        padding: 5px 12px;
+        border-radius: 8px;
+        display: inline-block;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="fw-bold mb-0">Finansal Özet</h2>
+            <p class="text-muted small">FinanceAI - Kişisel Durum Takibi</p>
+        </div>
+        <span class="badge bg-dark border border-secondary p-2">
+            <i class="far fa-calendar-alt me-1"></i> @DateTime.Now.ToString("dd MMMM yyyy")
+        </span>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card dashboard-card border-debt h-100 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="stat-label text-debt text-uppercase">SON EKLENEN BORÇ</div>
+                    <div class="stat-value text-white">
+                        @(Model.LastDebt?.Amount.ToString("C2") ?? "0.00 ₺")
+                    </div>
+                    <div class="mt-4">
+                        <span class="card-footer-text text-muted">
+                            <i class="fas fa-tag me-1"></i> @(Model.LastDebt?.Name ?? "Kayıt Yok")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card border-income h-100 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="stat-label text-income text-uppercase">SON EKLENEN GELİR</div>
+                    <div class="stat-value text-white">
+                        @(Model.LastIncome?.Amount.ToString("C2") ?? "0.00 ₺")
+                    </div>
+                    <div class="mt-4">
+                        <span class="card-footer-text text-muted">
+                            <i class="fas fa-wallet me-1"></i> @(Model.LastIncome?.Description ?? "Kayıt Yok")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card dashboard-card border-fixed h-100 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="stat-label text-fixed text-uppercase">SON SABİT GİDER</div>
+                    <div class="stat-value text-white">
+                        @(Model.LastFixedCost?.Amount.ToString("C2") ?? "0.00 ₺")
+                    </div>
+                    <div class="mt-4">
+                        <span class="card-footer-text text-muted">
+                            <i class="fas fa-calendar-check me-1"></i> @(Model.LastFixedCost?.Name ?? "Kayıt Yok")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

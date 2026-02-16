@@ -1,4 +1,5 @@
-﻿using FinanceAI.Business.Features.Incomes;
+﻿using FinanceAI.Application.Features.Debts;
+using FinanceAI.Business.Features.Incomes;
 
 namespace FinanceAI.Application.Features.Incomes
 {
@@ -10,6 +11,7 @@ namespace FinanceAI.Application.Features.Incomes
         Task Delete(int id);
         Task Update (IncomeUpdateDto dto);
 
-        Task <IncomeDto> GetByIdWithCategoryAsync(int id);  
+        Task <IncomeDto> GetByIdWithCategoryAsync(int id);
+        Task<IncomeDto?> GetLastIncomeAsync();
     }
 }

@@ -1,32 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using UI.Models;
+using UI.Services.Dashboard;
 
 namespace UI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IDashboard _apiService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IDashboard apiService)
         {
-            _logger = logger;
+            _apiService = apiService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await _apiService.GetDashboardSummaryAsync();
+            return View(model);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+      
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

@@ -38,6 +38,15 @@ namespace FinanceAI.Infrastructure.Repositories
         public void Update(T entity) => _dbSet.Update(entity);
 
         public IQueryable<T> Where(Expression<Func<T, bool>> expression) => _dbSet.Where(expression);
+        public async Task<T?> GetLastRecordAsync(Expression<Func<T, object>> orderByExpression, bool isDescending = true)
+        {
+            var query = _dbSet.AsQueryable();
+
+            if (isDescending)
+                return await query.OrderByDescending(orderByExpression).FirstOrDefaultAsync();
+
+            return await query.OrderBy(orderByExpression).FirstOrDefaultAsync();
+        }
 
     }
 }

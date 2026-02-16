@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using UI.DelegatingHandlers;
 using UI.Services.Auth;
+using UI.Services.Dashboard;
 using UI.Services.Debt;
 using UI.Services.FixedCost;
 using UI.Services.Incomes;
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IDebtService, DebtService>();
 builder.Services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>();
 builder.Services.AddScoped<IFixedCostService, FixedCostService>();
 builder.Services.AddScoped<IUserSetting, UserSetting>();
+builder.Services.AddScoped<IDashboard,Dashboard>();
 
 
 // 4. HttpClient Yapýlandýrmasý

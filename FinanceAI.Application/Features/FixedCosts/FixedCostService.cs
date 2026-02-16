@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FinanceAI.Application.Interfaces;
+using FinanceAI.Business.Features.Incomes;
 using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Interfaces;
+using FinanceAI.Infrastructure.Features.Incomes;
 
 namespace FinanceAI.Application.Features.FixedCosts
 {
@@ -56,6 +58,12 @@ namespace FinanceAI.Application.Features.FixedCosts
                            Amount = entity.Amount,
                            CategoryName = entity.FixedCostCategory.Name
                        };
+        }
+
+        public async Task<FixedCostDto> GetLastFixedCostAsync()
+        {
+            var ıncome = await _repository.GetLastRecordAsync(x => x.CreatedDate);
+            return _mapper.Map<FixedCostDto>(ıncome);
         }
 
         public async Task UpdateAsync(int id, FixedCostUpdateDto dto)

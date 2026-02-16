@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceAI.Application.Features.Debts;
 using FinanceAI.Business.Features.Incomes;
 using FinanceAI.Core.Entities;
 using FinanceAI.Core.Entities.Incomes;
@@ -34,12 +35,12 @@ namespace FinanceAI.Application.Features.Incomes
             var incomes = await _incomeRepository.GetIncomesWithCategoriesAsync(_currentUserId);
 
             // Entity -> DTO dönüşümü (Mapping)
-            return incomes.Select(x => new IncomeDto(
-                x.Id,
-                x.Amount,
-                x.IncomeDate,
-                x.Description,
-                x.IncomeCategory.Name)).ToList();
+            return incomes.Select(x => new IncomeDto {
+              Id=  x.Id,
+                Amount=  x.Amount,
+                IncomeDate= x.IncomeDate,
+                Description= x.Description,
+              CategoryName = x.IncomeCategory.Name}).ToList();
         }
 
         public async Task CreateAsync(IncomeCreateDto dto)
@@ -93,18 +94,18 @@ namespace FinanceAI.Application.Features.Incomes
         public async Task<IncomeDto> GetByIdWithCategoryAsync(int id)
         {
             var entity = await _incomeRepository.GetIncomeWithCategorybyIdAsync(id);
-            if( entity == null || entity.AppUserId != _currentUserId)
+            if (entity == null || entity.AppUserId != _currentUserId)
             {
                 throw new Exception("Gelir bulunamadı veya bu gelire erişim yetkiniz yok.");
             }
             return new IncomeDto
-            (
-               entity.Id,
-                entity.Amount,
-                entity.IncomeDate,
-                entity.Description,
-                 entity.IncomeCategory.Name
-            );
+            { 
+              Id= entity.Id,
+               Amount= entity.Amount,
+                IncomeDate=   entity.IncomeDate,
+                Description =   entity.Description,
+              CategoryName  = entity.IncomeCategory.Name
+            };
 
 
 
@@ -113,6 +114,12 @@ namespace FinanceAI.Application.Features.Incomes
 
 
 
+        }
+        public async Task<IncomeDto?> GetLastIncomeAsync()
+        {
+
+            var ıncome = await _incomeRepository.GetLastRecordAsync(x => x.CreatedDate);
+            return _mapper.Map<IncomeDto>(ıncome);
         }
     }
 }

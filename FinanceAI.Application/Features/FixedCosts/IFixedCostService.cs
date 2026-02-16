@@ -19,6 +19,7 @@ namespace FinanceAI.Application.Features.FixedCosts
         Task<List<FixedCostDto>> GetAllWithCategoryAsync();
 
         Task<FixedCostDto> GetByIdWithCategoryAsync(int id);
+        Task<FixedCostDto> GetLastFixedCostAsync();
 
 
     }

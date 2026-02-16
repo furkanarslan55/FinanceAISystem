@@ -17,7 +17,7 @@ namespace FinanceAI.Application.Features.Debts
 
         Task <DebtDto> GetDebtWithCategoryByIdAsync(int debtId);
 
-
+        Task<DebtDto?> GetLastDebtAsync();
 
 
     }

@@ -56,14 +56,15 @@ namespace FinanceAI.Application.Features.Debts
             var entities = await _repository.GetDebtWithCategoriesAsync(CurrentUserId);
 
             //return _mapper.Map<List<DebtDto>>(entities);
-            return entities.Select(x => new DebtDto(
-                x.Id,
-                x.Name,
-                x.Amount,
-                x.DueDate,
-                x.Description,
-                x.DebtCategory.Name)).ToList();
-
+            return entities.Select(x => new DebtDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Amount = x.Amount,
+                DueDate = x.DueDate,
+                Description = x.Description,
+                CategoryName = x.DebtCategory.Name // Kategori adını eşliyoruz
+            }).ToList();
         }
 
         public async  Task<DebtDto> GetDebtWithCategoryByIdAsync(int debtId)
@@ -71,13 +72,22 @@ namespace FinanceAI.Application.Features.Debts
            var entity = await _repository.GetDebtWithCategoryByIdAsync(debtId);
             if (entity == null || entity.AppUserId != CurrentUserId)
                 throw new Exception("Borç bulunamadı veya bu işlem için yetkiniz yok.");
-            return new DebtDto(
-                entity.Id,
-                entity.Name,
-                entity.Amount,
-                entity.DueDate,
-                entity.Description,
-                entity.DebtCategory.Name);
+            return new DebtDto
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+                Amount = entity.Amount,
+                DueDate = entity.DueDate,
+                Description = entity.Description,
+                CategoryName = entity.DebtCategory.Name
+            };
+        }
+
+        public async Task<DebtDto?> GetLastDebtAsync()
+        {
+           
+            var debt = await _repository.GetLastRecordAsync(x => x.CreatedDate);
+            return _mapper.Map<DebtDto>(debt);
         }
 
         public async Task UpdateAsync(DebtUpdateDto dto)
