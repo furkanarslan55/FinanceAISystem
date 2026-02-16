@@ -7,7 +7,7 @@ namespace UI.Services.Auth
         private readonly HttpClient _httpClient;
         public UserSetting(IHttpClientFactory httpClientFactory)
         {
-            // ÖNEMLİ: Program.cs'de TokenHandler eklenmiş olan istemciyi çağırıyoruz
+           
             _httpClient = httpClientFactory.CreateClient("BackendApi");
         }
         public async Task<UserViewDto> GetCurrentUserAsync(int id)
@@ -20,6 +20,19 @@ namespace UI.Services.Auth
             }
             var user = await response.Content.ReadFromJsonAsync<UserViewDto>();
             return user;
+        }
+
+        public async Task UpdateAsync( UserUpdateDto userUpdateDto)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/UserProfile/update-profile", userUpdateDto);
+
+           
+            if (!response.IsSuccessStatusCode)
+            {
+                
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new Exception($"Güncelleme başarısız: {errorMessage}");
+            }
         }
     }
 }

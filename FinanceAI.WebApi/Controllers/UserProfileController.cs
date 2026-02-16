@@ -1,8 +1,8 @@
 ﻿using FinanceAI.Application.Features.AppUser;
 using FinanceAI.Application.Features.User;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinanceAI.WebApi.Controllers
 {
@@ -20,14 +20,20 @@ namespace FinanceAI.WebApi.Controllers
         }
 
 
-        [HttpPut("profile/{id}")]
-        public async Task<IActionResult> UpdateProfile(int id, AppUserUpdateDto updateDto)
+        [HttpPut("update-profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] AppUserUpdateDto updateDto)
         {
-            await _userService.UpdateAsync(id, updateDto);
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            if (string.IsNullOrEmpty(userIdClaim))
+                return Unauthorized();
+
+            if (!int.TryParse(userIdClaim, out var userId))
+                return Unauthorized();
+
+            await _userService.UpdateAsync(userId, updateDto);
 
             return Ok(new { message = "Profil başarıyla güncellendi." });
-
         }
     }
 }
