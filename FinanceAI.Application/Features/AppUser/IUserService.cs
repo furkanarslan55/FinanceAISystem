@@ -13,5 +13,6 @@ namespace FinanceAI.Application.Features.AppUser
         Task<TokenResponseDto> LoginAsync(UserLoginDto loginDto);
 
         Task<UserViewDto> GetUserProfileById (int id);
+        
     }
 }

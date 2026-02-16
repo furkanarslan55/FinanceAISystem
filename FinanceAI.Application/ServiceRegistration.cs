@@ -3,6 +3,7 @@ using FinanceAI.Application.Features.Dashboard;
 using FinanceAI.Application.Features.Debts;
 using FinanceAI.Application.Features.FixedCosts;
 using FinanceAI.Application.Features.Incomes;
+using FinanceAI.Application.Features.User;
 using FinanceAI.Application.Features.VariableCost.VariableCostService;
 using FinanceAI.Application.Features.VariableCosts.VariableCostCategoryService;
 using FluentValidation.AspNetCore;
@@ -26,8 +27,13 @@ namespace FinanceAI.Application
             services.AddScoped<IVariableCostService, VariableCostService>();
             services.AddScoped<IVariableCostCategoryService, VariableCostCategoryService>();
             services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IUserSettingService, UserSettingService>();
+
+
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddFluentValidationAutoValidation();
+            
         }
     }
 }

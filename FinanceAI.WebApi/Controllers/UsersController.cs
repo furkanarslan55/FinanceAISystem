@@ -10,12 +10,12 @@ namespace FinanceAI.WebApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-  
 
-        public UsersController(IUserService userService )
+
+        public UsersController(IUserService userService)
         {
             _userService = userService;
-           
+
         }
 
         [HttpPost("register")]
@@ -55,6 +55,6 @@ namespace FinanceAI.WebApi.Controllers
             return Ok(user);
 
         }
-
+     
     }
 }

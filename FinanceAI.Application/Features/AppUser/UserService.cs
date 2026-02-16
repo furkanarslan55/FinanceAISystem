@@ -89,5 +89,7 @@ namespace FinanceAI.Application.Features.AppUser
                 MonthlyIncome = user.MonthlyIncome
             };
         }
+        
+
     }
 }
