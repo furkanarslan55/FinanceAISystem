@@ -45,7 +45,7 @@ namespace FinanceAI.Infrastructure.Context
             // Tüm Configuration dosyalarını (varsa) otomatik olarak uygular
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
            
-
+            modelBuilder.Entity<AppUser>().HasIndex(u => u.Email).IsUnique();
 
 
             base.OnModelCreating(modelBuilder);

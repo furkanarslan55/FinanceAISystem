@@ -44,6 +44,9 @@ namespace FinanceAI.Application.Features.AppUser
 
         public async Task<UserDto> RegisterAsync(UserRegisterDto dto)
         {
+            var emailExists = await _userRepository.EmailExistsAsync(dto.Email);
+            throw new Exception(emailExists ? "Bu email zaten kayıtlı!" : "Kayıt işlemi sırasında bir hata oluştu!");
+
             var hashedPassword = _passwordHasher.HashPassword(dto.Password);
             var user = new Core.Entities.AppUserEntity.AppUser
             {

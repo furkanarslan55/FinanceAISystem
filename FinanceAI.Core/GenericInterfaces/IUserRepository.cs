@@ -10,5 +10,6 @@ namespace FinanceAI.Core.Interfaces
     public interface IUserRepository : IGenericRepository<AppUser>
     {
         Task<AppUser?> GetByEmailAsync(string email);
+        Task<bool> EmailExistsAsync(string email);
     }
 }

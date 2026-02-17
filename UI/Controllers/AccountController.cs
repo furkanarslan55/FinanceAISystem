@@ -63,6 +63,7 @@ namespace UI.Controllers
             {
                 return View(registerModel);
             }
+
             var result = await _authService.RegisterAsync(registerModel);
             if (result != null)
             {
