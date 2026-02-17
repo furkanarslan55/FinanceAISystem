@@ -118,7 +118,7 @@ namespace FinanceAI.Application.Features.Incomes
         public async Task<IncomeDto?> GetLastIncomeAsync()
         {
 
-            var ıncome = await _incomeRepository.GetLastRecordAsync(x => x.CreatedDate);
+            var ıncome = await _incomeRepository.GetLastRecordAsync(x => x.AppUserId==_currentUserId,x=>x.CreatedDate);
             return _mapper.Map<IncomeDto>(ıncome);
         }
     }

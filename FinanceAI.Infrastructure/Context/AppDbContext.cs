@@ -1,10 +1,12 @@
-﻿using FinanceAI.Application.Interfaces;
+﻿using FinanceAI.Application.Features.Dashboard;
+using FinanceAI.Application.Interfaces;
 using FinanceAI.Core.Entities;
 using FinanceAI.Core.Entities.AppUserEntity;
 using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Entities.FixedCostEntity;
 using FinanceAI.Core.Entities.Incomes;
 using FinanceAI.Core.Entities.VariableCostEntity;
+using FinanceAI.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -17,10 +19,10 @@ namespace FinanceAI.Infrastructure.Context
         public AppDbContext(DbContextOptions<AppDbContext> options)
          : base(options)
         {
-            
           
-        }
 
+        }
+        
 
         public DbSet<AppUser> Users { get; set; }
 
@@ -42,9 +44,9 @@ namespace FinanceAI.Infrastructure.Context
         {
             // Tüm Configuration dosyalarını (varsa) otomatik olarak uygular
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
            
-          
+
+
 
             base.OnModelCreating(modelBuilder);
         }

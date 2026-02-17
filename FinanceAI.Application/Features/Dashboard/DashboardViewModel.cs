@@ -9,5 +9,6 @@ namespace FinanceAI.Application.Features.Dashboard
         public DebtDto? LastDebt { get; set; }
         public IncomeDto? LastIncome { get; set; }
         public FixedCostDto? LastFixedCost { get; set; }
+       
     }
 }

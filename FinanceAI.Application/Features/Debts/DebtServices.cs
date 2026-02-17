@@ -85,8 +85,13 @@ namespace FinanceAI.Application.Features.Debts
 
         public async Task<DebtDto?> GetLastDebtAsync()
         {
-           
-            var debt = await _repository.GetLastRecordAsync(x => x.CreatedDate);
+
+
+            var debt = await _repository
+          .GetLastRecordAsync(
+              x => x.AppUserId == CurrentUserId,
+              x => x.CreatedDate);
+
             return _mapper.Map<DebtDto>(debt);
         }
 

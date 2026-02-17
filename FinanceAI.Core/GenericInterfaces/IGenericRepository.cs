@@ -18,8 +18,12 @@ namespace FinanceAI.Core.Interfaces
         Task AddAsync(T entity);
         void Update(T entity);
         void Remove(T entity);
-       
-        Task<T?> GetLastRecordAsync(Expression<Func<T, object>> orderByExpression, bool isDescending = true);
+
+        Task<T?> GetLastRecordAsync(
+     Expression<Func<T, bool>> filter,
+     Expression<Func<T, object>> orderByExpression,
+     bool isDescending = true);
+
 
     }
 }

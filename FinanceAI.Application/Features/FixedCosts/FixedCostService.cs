@@ -62,7 +62,7 @@ namespace FinanceAI.Application.Features.FixedCosts
 
         public async Task<FixedCostDto> GetLastFixedCostAsync()
         {
-            var ıncome = await _repository.GetLastRecordAsync(x => x.CreatedDate);
+            var ıncome = await _repository.GetLastRecordAsync(x => x.AppUserId==CurrentUserId,x=>x.CreatedDate);
             return _mapper.Map<FixedCostDto>(ıncome);
         }
 
