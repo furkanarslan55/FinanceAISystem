@@ -1,0 +1,82 @@
+﻿<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 bg-dark text-light" style="border-radius: 20px; overflow: hidden;">
+
+                <div class="card-header border-bottom border-secondary py-3 text-center" style="background-color: #1e1e2e;">
+                    <h5 class="mb-0 fw-bold" style="color: #a5a5f1;"> FinanceAI Assistant</h5>
+                </div>
+
+                <div class="card-body p-4" style="min-height: 400px; max-height: 550px; overflow-y: auto; background-color: #1a1a27;">
+                    @if (ViewBag.Result != null)
+                    {
+                        <div class="d-flex flex-column align-items-start mb-4">
+                            <small class="text-muted mb-1 ms-2">AI Danışman</small>
+                            <div class="p-3 shadow-sm ai-bubble">
+                                @ViewBag.Result
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted mt-5">
+                            <i class="bi bi-robot fs-1 d-block mb-3"></i>
+                            <p>Finansal analiz için bir soru sorun...</p>
+                        </div>
+                    }
+                </div>
+
+                <div class="card-footer border-top border-secondary p-3" style="background-color: #1e1e2e;">
+                    <form asp-action="Ask" method="post" class="input-group">
+                        <input type="text" name="prompt" class="form-control dark-input shadow-none"
+                               placeholder="Mesajınızı buraya yazın..." required autocomplete="off" />
+                        <button type="submit" class="btn btn-primary px-4 fw-bold">
+                            Gönder
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* AI Balonu Stili */
+    .ai-bubble {
+        background-color: #2d2d44;
+        color: #e0e0e0;
+        border-radius: 2px 18px 18px 18px;
+        border-left: 4px solid #6c5ce7;
+        max-width: 90%;
+        line-height: 1.6;
+    }
+
+    /* Input Alanı Stili */
+    .dark-input {
+        background-color: #252535 !important;
+        border: 1px solid #444 !important;
+        color: #fff !important;
+        border-radius: 12px 0 0 12px !important;
+    }
+
+        .dark-input:focus {
+            border-color: #6c5ce7 !important;
+        }
+
+    /* Buton Stili */
+    .btn-primary {
+        background-color: #6c5ce7 !important;
+        border: none !important;
+        border-radius: 0 12px 12px 0 !important;
+    }
+
+    /* Scrollbar Özelleştirme (Opsiyonel) */
+    .card-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .card-body::-webkit-scrollbar-thumb {
+        background-color: #3d3d5c;
+        border-radius: 10px;
+    }
+</style>

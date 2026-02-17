@@ -1,5 +1,7 @@
 ﻿using FinanceAI.Application;
+using FinanceAI.Application.AIConfigurations;
 using FinanceAI.Infrastructure;
+using FinanceAI.Infrastructure.AIService;
 using FinanceAI.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -8,9 +10,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ==========================================
-// 1. Katman Servisleri (Infrastructure & Application)
-// ==========================================
+
+builder.Services.AddInfrastructure();
+
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddCors(options =>

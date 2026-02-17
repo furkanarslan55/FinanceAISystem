@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using UI.DelegatingHandlers;
+using UI.Services.AI;
 using UI.Services.Auth;
 using UI.Services.Dashboard;
 using UI.Services.Debt;
@@ -25,6 +26,11 @@ builder.Services.AddScoped<IFixedCostCategoryService, FixedCostCategoryService>(
 builder.Services.AddScoped<IFixedCostService, FixedCostService>();
 builder.Services.AddScoped<IUserSetting, UserSetting>();
 builder.Services.AddScoped<IDashboard,Dashboard>();
+builder.Services.AddHttpClient<IAiService, AiService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7174/"); // Web API adresin
+});
+
 
 
 // 4. HttpClient Yapýlandýrmasý
