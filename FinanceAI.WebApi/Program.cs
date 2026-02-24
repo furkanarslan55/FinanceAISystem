@@ -27,14 +27,12 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddHttpClient("CurrencyApi", client =>
 {
-    client.BaseAddress = new Uri("https://api.exchangerate-api.com/v4/latest/"); // Örnek API URL'si
+    client.BaseAddress = new Uri("https://api.exchangerate-api.com/v4/latest/"); 
     client.Timeout = TimeSpan.FromSeconds(30);
 });
 builder.Services.AddControllers();
 
-// ==========================================
-// 2. JWT Authentication Yapılandırması (Eksik Olan Kısım Buydu)
-// ==========================================
+
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
 
@@ -93,6 +91,13 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();  // Geliştirme ortamında daha ayrıntılı loglar için Debug sağlayıcısını ekledik.
+
+
+
 
 var app = builder.Build();
 
