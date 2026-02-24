@@ -6,9 +6,17 @@ using FinanceAI.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog(); 
+
 
 
 builder.Services.AddInfrastructure();
@@ -92,9 +100,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();  // Geliştirme ortamında daha ayrıntılı loglar için Debug sağlayıcısını ekledik.
 
 
 

@@ -2,6 +2,7 @@
 using FinanceAI.Core.Entities.DebtEntity;
 using FinanceAI.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace FinanceAI.Application.Features.Debts
@@ -13,11 +14,13 @@ namespace FinanceAI.Application.Features.Debts
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly int CurrentUserId;
+        private readonly ILogger<DebtServices> _logger;
 
         public DebtServices(
-           IDebtRepository debtRepository,IUnitOfWork unitOfWork,IMapper mapper, IHttpContextAccessor httpContextAccessor) 
+           IDebtRepository debtRepository,IUnitOfWork unitOfWork,IMapper mapper, IHttpContextAccessor httpContextAccessor,ILogger<DebtServices> logger) 
         {
             _repository = debtRepository;
+            _logger = logger;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
@@ -31,7 +34,8 @@ namespace FinanceAI.Application.Features.Debts
         {
             var entity = _mapper.Map<Debt>(dto);
             entity.AppUserId = CurrentUserId;
-           await  _repository.AddAsync(entity);
+            _logger.LogInformation("Creating a new debt for user {UserId} with name {DebtName}", CurrentUserId, entity.Name);
+            await  _repository.AddAsync(entity);
               await _unitOfWork.CommitAsync();
         }
 
